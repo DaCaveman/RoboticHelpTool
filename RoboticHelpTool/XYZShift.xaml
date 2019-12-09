@@ -1,0 +1,29 @@
+﻿<Window x:Class="RoboticHelpTool.XYZShift"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboticHelpTool"
+        mc:Ignorable="d"
+        Closing="XYZShiftClosing"
+        Title="XYZShift" Height="150" Width="450"  ShowInTaskbar="False" ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FF616161" WindowStyle="None">
+
+    <Grid>
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" Height="150" VerticalAlignment="Top"/>
+        <TextBox x:Name="X" HorizontalAlignment="Left" Height="23" Margin="40,46,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="120" AccessKeyManager.AccessKeyPressed="Enter_Press"/>
+        <TextBox x:Name="Y" HorizontalAlignment="Left" Height="23" Margin="164,46,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="120" AccessKeyManager.AccessKeyPressed="Enter_Press"/>
+        <TextBox x:Name="Z" HorizontalAlignment="Left" Height="23" Margin="290,46,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="120" AccessKeyManager.AccessKeyPressed="Enter_Press"/>
+        <Button Style="{StaticResource X_Button}" Width="20" Height="20" Margin="425,5,5,125" Click="Button_Close">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource OK_Button}" HorizontalAlignment="Left" Margin="165,99,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click" >
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Label Content="Bitte alle Parameter benennen!" Margin="40,21,40,104"/>
+
+    </Grid>
+</Window>

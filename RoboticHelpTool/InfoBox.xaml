@@ -1,0 +1,34 @@
+﻿<Window x:Class="RoboticHelpTool.InfoBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboticHelpTool"
+        mc:Ignorable="d"
+        Title="InfoBox" Height="150" Width="450"  ShowInTaskbar="False" ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FF616161" WindowStyle="None">
+    <Grid>
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Button Style="{StaticResource X_Button}" Width="20" Height="20" Margin="425,5,5,125" Click="Button_Close">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Label Name="InfoBox_Text"  Margin="26,10,26,40" FontFamily="Calibri" FontSize="14" Focusable="False" >
+        </Label>
+        <Button Name="OK_Button" Style="{StaticResource OK_Button}" HorizontalAlignment="Left" Margin="70,115,0,0" VerticalAlignment="Top" Width="120" Click="Button_OK">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Button Name="Abbruch_Button" Style="{StaticResource Abbruch_Button}" HorizontalAlignment="Right" Margin="250,115,70,0" VerticalAlignment="Top" Width="120" Click="Button_Abbruch" >
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Button Name="Manual_Button"  Style="{StaticResource Manual_Button}" HorizontalAlignment="Right" Margin="0,115,70,0" VerticalAlignment="Top" Width="120" Click="Button_Manual" >
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+    </Grid>
+</Window>

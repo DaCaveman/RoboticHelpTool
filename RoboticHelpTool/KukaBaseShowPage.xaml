@@ -1,0 +1,22 @@
+﻿<Page x:Class="RoboticHelpTool.KukaBaseShowPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RoboticHelpTool"
+      mc:Ignorable="d" 
+      d:DesignHeight="370" d:DesignWidth="560"
+      Title="KukaBaseShowPage">
+
+    <Grid>
+
+        <TextBox x:Name="X_Value_Base" HorizontalAlignment="Left" Height="23" Margin="34,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="X" Text="X" IsReadOnly="True"/>
+        <TextBox x:Name="Y_Value_Base" HorizontalAlignment="Left" Height="23" Margin="173,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="Y" Text="Y" IsReadOnly="True"/>
+        <TextBox x:Name="Z_Value_Base" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="319,159,0,0" Tag="Z" Text="Z" IsReadOnly="True"/>
+        <TextBox x:Name="rZ_Value_Base" HorizontalAlignment="Left" Height="23" Margin="34,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="A(rZ)" Text="A(rZ)" IsReadOnly="True"/>
+        <TextBox x:Name="rY_Value_Base" HorizontalAlignment="Left" Height="23" Margin="173,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="B(rY)" Text="B(rY)" IsReadOnly="True"/>
+        <TextBox x:Name="rX_Value_Base" HorizontalAlignment="Left" Height="23" Margin="319,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="C(rX)" Text="C(rX)" IsReadOnly="True"/>
+        <Label Content="Kalkulation der Base der eingegebenen Punkte mit RPY Winkel (KUKA)" HorizontalAlignment="Left" Margin="34,128,0,0" VerticalAlignment="Top" Width="405"/>
+
+    </Grid>
+</Page>

@@ -1,0 +1,36 @@
+﻿<Window x:Class="RoboticHelpTool.RobDecision"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboticHelpTool"
+        mc:Ignorable="d"
+        Title="Rob Decision" Height="370" Width="760"  ShowInTaskbar="False" ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FF616161" WindowStyle="None">
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="370" Width="760" Margin="0,0,0,0">
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" />
+        <Frame x:Name="MainData" NavigationUIVisibility="Hidden" Width="560" HorizontalAlignment="Left" Margin="200,0,-560,0" />
+        <Button Name="Kuka_OnePosTCP" Style="{StaticResource KukaOnePos_Button}" Margin="10,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="150" Click="KUKA_TCP_Click">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <DockPanel LastChildFill="True" Margin="0,0,0,0">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Width="550" />
+        </DockPanel>
+        <Button Style="{StaticResource X_Button}" Width="20" Height="20" Margin="735,5,5,345" Click="Button_Close">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource ABBOnePos_Button}" Margin="10,60,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="150" Click="ABB_TCP_Click" Visibility="Hidden">
+        <Button.Effect>
+            <DropShadowEffect Opacity="0.5"/>
+        </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource KukaBase_Button}" Name="Kuka_Base" Margin="10,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="25" Width="150" Click="KUKA_Base_Click">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+    </Grid>
+</Window>

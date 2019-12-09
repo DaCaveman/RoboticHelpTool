@@ -1,0 +1,51 @@
+﻿<Window x:Class="RoboticHelpTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RoboticHelpTool"
+        mc:Ignorable="d"
+        Title="Robotic Help Tool" Height="420" Width="992" ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStyle="None" Icon="TSR.ico" AllowDrop="True" >
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+            <GradientStop Color="#FF575757" Offset="1"/>
+            <GradientStop Color="#FF878787"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="420" Width="992" Margin="0,0,0,0">
+        <DockPanel Grid.Row="1" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" Width="200">
+            </StackPanel>
+        </DockPanel>
+        <Frame x:Name="MainData" NavigationUIVisibility="Hidden" Width="792" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" />
+        <Frame x:Name="SideData" NavigationUIVisibility="Hidden" Grid.Column="2" HorizontalAlignment="Right" Width="592" />
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Label Content="RoboticHelpTool" Margin="10,0,876,395" FontFamily="Calibri" FontSize="14" FontWeight="Bold"/>
+        <Button Style="{StaticResource X_Button}" Width="20" Height="20" Margin="967,5,5,395" Click="Button_Close">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource Minimize_Button}" Width="20" Height="20" Margin="947,5,25,395" Click="Button_Minimize">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource Info_Button}" Width="20" Height="20" Margin="927,5,45,395" Click="Button_Info">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource Hand_Button}" Width="180" Height="30" Margin="0,25,792,365" Click="Button_Hand">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource Kuka_Button}" Width="180" Height="30" Margin="10,60,802,330" Click="Button_KUKA">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5"/>
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource Abb_Button}" Width="180" Height="30" Margin="10,95,802,295" Click="Button_ABB" Visibility="Hidden"/>
+    </Grid>
+</Window>
