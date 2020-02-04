@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Text.RegularExpressions;
 
 
 namespace RoboticHelpTool
@@ -259,7 +260,8 @@ namespace RoboticHelpTool
                                 split = line.Split(' ', ',', '=');
                                 foreach (var name in KukaLocation.DatInNames)
                                 {
-                                    if (line.CaseInsensitiveContains(name))
+                                    if (Regex.IsMatch(line, "\\b" + name + "\\b", RegexOptions.IgnoreCase))
+                                    //if (line.CaseInsensitiveContains(name))
                                     {
                                         KukaLocation.ExistingNames.Add(name);
                                     }
@@ -274,7 +276,8 @@ namespace RoboticHelpTool
                             {
                                 foreach (var nv in KukaLocation.MissingNames)
                                 {
-                                    if (KukaLocation.DatInLines[i].Contains(nv))
+                                    if (Regex.IsMatch(KukaLocation.DatInLines[i], "\\b" + nv + "\\b", RegexOptions.IgnoreCase))
+                                    //    if (KukaLocation.DatInLines[i].Contains(nv))
                                     {
                                         if (!Misc.CaseInsensitiveContains(KukaLocation.DatInLines[i], "SUCCESS"))
                                             if (!Misc.CaseInsensitiveContains(KukaLocation.DatInLines[i], "global"))
@@ -407,7 +410,8 @@ namespace RoboticHelpTool
                         split = line.Split(' ', ',', '=');
                         foreach (var name in KukaLocation.DatInNames)
                         {
-                            if (line.CaseInsensitiveContains(name))
+                            if (Regex.IsMatch(line, "\\b"+ name + "\\b", RegexOptions.IgnoreCase))
+                            //if (line.CaseInsensitiveContains(name))
                             {
                                 KukaLocation.ExistingNames.Add(name);
                             }
@@ -422,7 +426,8 @@ namespace RoboticHelpTool
                     {
                         foreach (var nv in KukaLocation.MissingNames)
                         {
-                            if (KukaLocation.DatInLines[i].Contains(nv))
+                            if (Regex.IsMatch(KukaLocation.DatInLines[i], "\\b" + nv + "\\b", RegexOptions.IgnoreCase))
+                            //    if (KukaLocation.DatInLines[i].Contains(nv))
                             {
                                 if (!Misc.CaseInsensitiveContains(KukaLocation.DatInLines[i], "SUCCESS"))
                                     if (!Misc.CaseInsensitiveContains(KukaLocation.DatInLines[i], "global"))

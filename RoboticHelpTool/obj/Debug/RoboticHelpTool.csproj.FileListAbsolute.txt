@@ -61,7 +61,6 @@ D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\AuswahlListe.baml
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.g.resources
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.Properties.Resources.resources
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.csproj.GenerateResource.cache
-D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.csproj.CoreCompileInputs.cache
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.TrustInfo.xml
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.exe.manifest
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.application
