@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace RoboticHelpTool
 {
     public class Operation
@@ -636,12 +638,243 @@ namespace RoboticHelpTool
             return tmpMatrixLocation;
         }
 
+        // Calculates the average of the values from LocationList XCoordinate
+        public static Double[] averageXYZ(List<KukaLocation> locationList)
+        {
+            double[] result = new double[3];
+            double sumX = 0;
+            double sumY = 0;
+            double sumZ = 0;
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                sumX = sumX + locationList[i].XCoordinate;
+            }
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                sumY = sumY + locationList[i].YCoordinate;
+            }
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                sumZ = sumZ + locationList[i].ZCoordinate;
+            }
+
+            result[0] = sumX / locationList.Count;
+            result[1] = sumY / locationList.Count;
+            result[2] = sumZ / locationList.Count;
+
+            return result;
+        }
+
+        // Calculates the summary for each index of the A Matrix
+        public static Double[,] sumForA(List<KukaLocation> locationList)
+        {
+            double[,] result;
+            double XvX = 0;
+            double XvY = 0;
+            double XvZ = 0;
+            double YvX = 0;
+            double YvY = 0;
+            double YvZ = 0;
+            double ZvX = 0;
+            double ZvY = 0;
+            double ZvZ = 0;
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                XvX = XvX + (locationList[i].XCoordinate * (locationList[i].XCoordinate - averageXYZ(locationList)[0]) 
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                XvY = XvY + (locationList[i].XCoordinate * (locationList[i].YCoordinate - averageXYZ(locationList)[1])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                XvZ = XvZ + (locationList[i].XCoordinate * (locationList[i].ZCoordinate - averageXYZ(locationList)[2])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                YvX = YvX + (locationList[i].YCoordinate * (locationList[i].XCoordinate - averageXYZ(locationList)[0])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                YvY = YvY + (locationList[i].YCoordinate * (locationList[i].YCoordinate - averageXYZ(locationList)[1])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                YvZ = YvZ + (locationList[i].YCoordinate * (locationList[i].ZCoordinate - averageXYZ(locationList)[2])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                ZvX = ZvX + (locationList[i].ZCoordinate * (locationList[i].XCoordinate - averageXYZ(locationList)[0])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                ZvY = ZvY + (locationList[i].ZCoordinate * (locationList[i].YCoordinate - averageXYZ(locationList)[1])
+                            / locationList.Count);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                ZvZ = ZvZ + (locationList[i].ZCoordinate * (locationList[i].ZCoordinate - averageXYZ(locationList)[2])
+                            / locationList.Count);
+            }
+
+            result = new double[,]{ { XvX, XvY, XvZ},{ YvX, YvY, YvZ},{ ZvX, ZvY, ZvZ} };
+
+            return result;
+        }
+
+        public static Double[,] sumForB(List<KukaLocation> locationList)
+        {
+            double[,] result = new double[3,1];
+            double allX = 0;
+            double allY = 0;
+            double allZ = 0;
+            
+
+            for (int i = 0; i < locationList.Count;i++)
+            {
+                allX = allX + ((Math.Pow(locationList[i].XCoordinate, 2) + Math.Pow(locationList[i].YCoordinate, 2) + Math.Pow(locationList[i].ZCoordinate, 2)) * 
+                                (locationList[i].XCoordinate - averageXYZ(locationList)[0])) / 
+                                locationList.Count;
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                allY = allY + ((Math.Pow(locationList[i].XCoordinate, 2) + Math.Pow(locationList[i].YCoordinate, 2) + Math.Pow(locationList[i].ZCoordinate, 2)) *
+                                (locationList[i].YCoordinate - averageXYZ(locationList)[1])) /
+                                locationList.Count;
+            }
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                allZ = allZ + ((Math.Pow(locationList[i].XCoordinate, 2) + Math.Pow(locationList[i].YCoordinate, 2) + Math.Pow(locationList[i].ZCoordinate, 2)) *
+                                (locationList[i].ZCoordinate - averageXYZ(locationList)[2])) /
+                                locationList.Count;
+            }
+
+            result[0,0] = allX;
+            result[1,0] = allY;
+            result[2,0] = allZ;
+
+            return result;
+        }
+
+        public static Double[] bestFit(List<KukaLocation> locationList)
+        {
+            double[] result = new double[4];
+            double[,] bestFitBase;
+            double[,] A;
+            double[,] B;
+            double[,] ATrans;
+            double[,] invATransA;
+
+            A = new double[,] { { 2 * sumForA(locationList)[0,0], 2 * sumForA(locationList)[0, 1], 2 * sumForA(locationList)[0, 2] },
+                                { 2 * sumForA(locationList)[1,0], 2 * sumForA(locationList)[1, 1], 2 * sumForA(locationList)[1, 2] },
+                                { 2 * sumForA(locationList)[2,0], 2 * sumForA(locationList)[2, 1], 2 * sumForA(locationList)[2, 2] }};
+
+            B = new double[,] { { sumForB(locationList)[0,0]},
+                                { sumForB(locationList)[1,0]},
+                                { sumForB(locationList)[2,0]}};
+
+            ATrans = Transpose(A);
+            invATransA = MatrixInver(MatrixMulti(ATrans, A));
+            bestFitBase = MatrixMulti(MatrixMulti(invATransA, ATrans), B);
+
+
+            result[0] = bestFitBase[0, 0];
+            result[1] = bestFitBase[1, 0];
+            result[2] = bestFitBase[2, 0];
+
+            return result;
+        }
+
+        public static double[,] MatrixMulti(double[,] A, double[,] B)
+        {
+            int lengthA;
+            int rankA;
+            int lenghtB;
+            int rankB;
+
+            lengthA = A.GetLength(0);
+            rankA = A.GetLength(1);
+            lenghtB = B.GetLength(0);
+            rankB = B.GetLength(1);
+            double[,] result = new double[lenghtB,rankB];
+
+            for (int i = 0; i < lengthA; i++)
+            {
+                for (int j = 0; j < rankB; j++)
+                {
+                    result[i,j] = 0;
+                    for (int k = 0; k < lenghtB; k++)
+                        result[i,j] = result[i,j] + (A[i,k] * B[k,j]);
+                }
+            }
+
+            return result;
+        }
+
+        public static double[,] Transpose(double[,] matrix)
+        {
+            int w = matrix.GetLength(0);
+            int h = matrix.GetLength(1);
+
+            double[,] result = new double[h, w];
+
+            for (int i = 0; i < w; i++)
+            {
+                for (int j = 0; j < h; j++)
+                {
+                    result[j, i] = matrix[i, j];
+                }
+            }
+
+            return result;
+        }
+        public static Double[,] MatrixInver(double[,] matrix)
+        {
+            int lengthMatrix = matrix.GetLength(0);
+            int rankMatrix = matrix.GetLength(1);
+
+            double[,] result = new double[lengthMatrix,rankMatrix];
+            double[][] m = MatrixCreate(lengthMatrix,rankMatrix);
+            double[][] inv;
+
+            for (int i = 0; i < rankMatrix; i++)
+            {
+                for (int j = 0; j < lengthMatrix; j++)
+                {
+                    m[i][j] = matrix[i, j];
+                }
+            }
+
+            inv = MatrixInverse(m);
+
+            for (int i = 0; i < rankMatrix; i++)
+            {
+                for (int j = 0; j < lengthMatrix; j++)
+                {
+                    result[i,j] = inv[i][j];
+                }
+            }
+
+            return result;
+        }
 
         //*********************************************************************************************************************************************
         //Sonstige Hilfsmethoden, kopiert vom Internet https://stackoverflow.com/questions/46836908/double-inversion-c-sharp
 
         // Temporär für ablauf zum erstellen eine Matrix zum Invertieren
-        // Nur zum entwickeln das umsetzten mit Meinen Matrizen
+        // Nur zum entwickeln das umsetzten mit meinen Matrizen
         public static MatrixLocation MatrixInv(object L)
         {
             MatrixLocation tmpMatrixLocationA = new MatrixLocation();

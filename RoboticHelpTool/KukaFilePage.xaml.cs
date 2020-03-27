@@ -361,6 +361,9 @@ namespace RoboticHelpTool
             //String Objekten die vom Roboter gelesen werden können
             KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
 
+			//Testsyntax für bestFit Test
+            Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+
             //löschen der letzten Datei
             File.Delete("tmpOutputKuka.src");
 
