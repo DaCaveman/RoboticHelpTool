@@ -793,10 +793,72 @@ namespace RoboticHelpTool
             result[0] = bestFitBase[0, 0];
             result[1] = bestFitBase[1, 0];
             result[2] = bestFitBase[2, 0];
+            result[3] = Radius(locationList, result);
+            result[4] = FitQuality(locationList, result);
 
             return result;
         }
 
+        public static double FunctionZ(KukaLocation location, double[] bestFit)
+        {
+            double result = 0;
+
+            if (location.ZCoordinate < bestFit[2])
+            {
+                result = -Math.Sqrt(Math.Pow(bestFit[3], 2) -
+                                    Math.Pow(location.XCoordinate - bestFit[0], 2) -
+                                    Math.Pow(location.YCoordinate - bestFit[1], 2)) + bestFit[2];
+            }
+            else if (location.ZCoordinate >= bestFit[2])
+            {
+                result = Math.Sqrt(Math.Pow(bestFit[3], 2) -
+                                    Math.Pow(location.XCoordinate - bestFit[0], 2) -
+                                    Math.Pow(location.YCoordinate - bestFit[1], 2)) + bestFit[2];
+            }
+
+            return result;
+        }
+
+        public static double FitQuality(List<KukaLocation> locationList, double[] bestFit)
+        {
+            double result = 0;
+            double fitQualityUpper = 0;
+            double fitQualityLower = 0;
+            double sumZ = 0;
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                sumZ = sumZ + locationList[i].ZCoordinate;
+            }
+            for ( int i = 0; i < locationList.Count; i++)
+            {
+                fitQualityUpper = fitQualityUpper + Math.Pow(locationList[i].ZCoordinate - FunctionZ(locationList[i], bestFit), 2);
+            }
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                fitQualityLower = fitQualityLower + Math.Pow(locationList[i].ZCoordinate - (sumZ / locationList.Count), 2);
+            }
+
+            result = 1 - (fitQualityUpper / fitQualityLower);
+
+            return result;
+        }
+        public static double Radius(List<KukaLocation> locationList, double[] bestFitBase)
+        {
+            double result = 0;
+            double sumRadius = 0;
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                sumRadius = sumRadius + (Math.Pow(locationList[i].XCoordinate - bestFitBase[0], 2) +
+                                         Math.Pow(locationList[i].YCoordinate - bestFitBase[1], 2) +
+                                         Math.Pow(locationList[i].ZCoordinate - bestFitBase[2], 2));
+            }
+
+            result = Math.Sqrt(sumRadius / locationList.Count);
+
+            return result;
+        }
         public static double[,] MatrixMulti(double[,] A, double[,] B)
         {
             int lengthA;
