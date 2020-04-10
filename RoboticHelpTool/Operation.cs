@@ -768,14 +768,20 @@ namespace RoboticHelpTool
             return result;
         }
 
-        public static Double[] bestFit(List<KukaLocation> locationList)
+        public static Double[,] bestFit(List<KukaLocation> locationList)
         {
-            double[] result = new double[4];
+            double[,] result = new double[9,3];
             double[,] bestFitBase;
             double[,] A;
             double[,] B;
             double[,] ATrans;
             double[,] invATransA;
+            List<double> failureValues = new List<double>();
+            double minFailure = 0;
+            double maxFailure = 0;
+            double avgFailure = 0;
+            int minFailureIndex = 0;
+            KukaLocation Base;
 
             A = new double[,] { { 2 * sumForA(locationList)[0,0], 2 * sumForA(locationList)[0, 1], 2 * sumForA(locationList)[0, 2] },
                                 { 2 * sumForA(locationList)[1,0], 2 * sumForA(locationList)[1, 1], 2 * sumForA(locationList)[1, 2] },
@@ -790,36 +796,57 @@ namespace RoboticHelpTool
             bestFitBase = MatrixMulti(MatrixMulti(invATransA, ATrans), B);
 
 
-            result[0] = bestFitBase[0, 0];
-            result[1] = bestFitBase[1, 0];
-            result[2] = bestFitBase[2, 0];
-            result[3] = Radius(locationList, result);
-            result[4] = FitQuality(locationList, result);
+            result[0, 0] = bestFitBase[0, 0];
+            result[1, 0] = bestFitBase[1, 0];
+            result[2, 0] = bestFitBase[2, 0];
+            result[3, 0] = Radius(locationList, result);
+            result[4, 0] = FitQuality(locationList, result);
+
+            for (int i = 0; i < locationList.Count; i++)
+            {
+                failureValues.Add(FunctionZ(locationList[i], result) - locationList[i].ZCoordinate);
+            }
+            minFailure = failureValues.Select(x => Math.Abs(x)).Min();
+            maxFailure = failureValues.Select(x => Math.Abs(x)).Max();
+            avgFailure = failureValues.Select(x => Math.Abs(x)).Average();
+            minFailureIndex = failureValues.IndexOf(minFailure);
+
+            result[5, 0] = minFailure;
+            result[6, 0] = maxFailure;
+            result[7, 0] = avgFailure;
+
+            KukaOnePosTcpPage.FlanschInv = new KukaLocation(Operation.MatrixInv(locationList[minFailureIndex]));
+            Base = new KukaLocation("BASE", "Base", result[0, 0], result[1, 0], result[2, 0], 0, 0, 0);
+            KukaOnePosTcpPage.TCP = new KukaLocation(Operation.MultiLocation(Base, KukaOnePosTcpPage.FlanschInv));
+
+            result[8, 0] = KukaOnePosTcpPage.TCP.XCoordinate;
+            result[8, 1] = KukaOnePosTcpPage.TCP.YCoordinate;
+            result[8, 2] = KukaOnePosTcpPage.TCP.ZCoordinate;
 
             return result;
         }
 
-        public static double FunctionZ(KukaLocation location, double[] bestFit)
+        public static double FunctionZ(KukaLocation location, double[,] bestFit)
         {
             double result = 0;
 
-            if (location.ZCoordinate < bestFit[2])
+            if (location.ZCoordinate < bestFit[2, 0])
             {
-                result = -Math.Sqrt(Math.Pow(bestFit[3], 2) -
-                                    Math.Pow(location.XCoordinate - bestFit[0], 2) -
-                                    Math.Pow(location.YCoordinate - bestFit[1], 2)) + bestFit[2];
+                result = -Math.Sqrt(Math.Pow(bestFit[3, 0], 2) -
+                                    Math.Pow(location.XCoordinate - bestFit[0, 0], 2) -
+                                    Math.Pow(location.YCoordinate - bestFit[1, 0], 2)) + bestFit[2, 0];
             }
-            else if (location.ZCoordinate >= bestFit[2])
+            else if (location.ZCoordinate >= bestFit[2, 0])
             {
-                result = Math.Sqrt(Math.Pow(bestFit[3], 2) -
-                                    Math.Pow(location.XCoordinate - bestFit[0], 2) -
-                                    Math.Pow(location.YCoordinate - bestFit[1], 2)) + bestFit[2];
+                result = Math.Sqrt(Math.Pow(bestFit[3, 0], 2) -
+                                    Math.Pow(location.XCoordinate - bestFit[0, 0], 2) -
+                                    Math.Pow(location.YCoordinate - bestFit[1, 0], 2)) + bestFit[2, 0];
             }
 
             return result;
         }
 
-        public static double FitQuality(List<KukaLocation> locationList, double[] bestFit)
+        public static double FitQuality(List<KukaLocation> locationList, double[,] bestFit)
         {
             double result = 0;
             double fitQualityUpper = 0;
@@ -843,16 +870,16 @@ namespace RoboticHelpTool
 
             return result;
         }
-        public static double Radius(List<KukaLocation> locationList, double[] bestFitBase)
+        public static double Radius(List<KukaLocation> locationList, double[,] bestFitBase)
         {
             double result = 0;
             double sumRadius = 0;
 
             for (int i = 0; i < locationList.Count; i++)
             {
-                sumRadius = sumRadius + (Math.Pow(locationList[i].XCoordinate - bestFitBase[0], 2) +
-                                         Math.Pow(locationList[i].YCoordinate - bestFitBase[1], 2) +
-                                         Math.Pow(locationList[i].ZCoordinate - bestFitBase[2], 2));
+                sumRadius = sumRadius + (Math.Pow(locationList[i].XCoordinate - bestFitBase[0, 0], 2) +
+                                         Math.Pow(locationList[i].YCoordinate - bestFitBase[1, 0], 2) +
+                                         Math.Pow(locationList[i].ZCoordinate - bestFitBase[2, 0], 2));
             }
 
             result = Math.Sqrt(sumRadius / locationList.Count);

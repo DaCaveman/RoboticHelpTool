@@ -119,8 +119,8 @@ namespace RoboticHelpTool
             finish.Abbruch_Button.Visibility = Visibility.Hidden;
             finish.Manual_Button.Visibility = Visibility.Hidden;
             finish.Show();
-            
-            // Auswahl Test
+
+            ////Auswahl Test
             //KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
             //foreach (var x in KukaLocation.LocationsAktuellString)
             //{
@@ -132,7 +132,7 @@ namespace RoboticHelpTool
             //KukaLocation.LocationsAuswahlString.Clear();
             //foreach (CheckBox y in LocationListe.WorkList.Items)
             //{
-            //    if (y.IsChecked==true)
+            //    if (y.IsChecked == true)
             //        KukaLocation.LocationsAuswahlString.Add(y.Content.ToString());
             //}
             ////löschen der letzten Datei
@@ -146,10 +146,10 @@ namespace RoboticHelpTool
             //    KukaLocation.LocationsAuswahlString.ForEach(v => file.WriteLine(v));
             //}
 
-            ////Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
+            //////Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
             //Process.Start("tmpOutputKuka.src");
 
-            // Auswahl Test
+            //// Auswahl Test
         }
         //Action EmptyDelegate = delegate () { }; // Zuweisung einer anonymen Methode ohne ausführbaren Code
 
