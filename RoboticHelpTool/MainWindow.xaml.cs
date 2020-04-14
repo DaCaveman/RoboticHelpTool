@@ -87,4 +87,32 @@ namespace RoboticHelpTool
         }
 
     }
+    public class FontSizeConverterTextBox : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            double actualHeight = System.Convert.ToDouble(value) / 9;
+            int fontSize = (int)(actualHeight * .5);
+            return fontSize;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class FontSizeConverterLabel : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            double actualHeight = System.Convert.ToDouble(value) / 13;
+            int fontSize = (int)(actualHeight * .5);
+            return fontSize;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

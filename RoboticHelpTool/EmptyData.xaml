@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="560"
       Title="EmptyData">
-    <Grid>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto">
         <Rectangle Name="LogoRectangle" Margin="139,148,23,160" Visibility="Hidden">
             <Rectangle.Style>
                 <Style TargetType="Rectangle">
@@ -29,7 +29,7 @@
                 </EventTrigger>
             </Rectangle.Triggers>
         </Rectangle>
-        <Rectangle Margin="139,280,23,28" >
+        <Rectangle Margin="132,278,30,30" Visibility="Visible">
             <Rectangle.Effect>
                 <DropShadowEffect Opacity="0.5" />
             </Rectangle.Effect>

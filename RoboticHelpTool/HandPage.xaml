@@ -7,50 +7,80 @@
       mc:Ignorable="d" 
       d:DesignHeight="420" d:DesignWidth="792"
       Title="HandPage">
+    <Page.Resources>
+        <local:FontSizeConverterTextBox x:Key="fontSizeConTextBox" />
+        <local:FontSizeConverterLabel x:Key="fontSizeConLabel" />
+    </Page.Resources>
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto">
+        <Button Style="{StaticResource Einlesen_Button}" Width="Auto" Height="Auto" Margin="731,240,1,0" Click="Button_Einlesen" Visibility="Hidden"/>
+        <Button Style="{StaticResource Reset_Button}" Height="24" Margin="45,17,0,0" Click="Reset_Click" HorizontalAlignment="Left" Width="120" VerticalAlignment="Top"/>
+        <Button Style="{StaticResource RelBase_Button}" Margin="45,132,0,0" Click="XYZShift_Click" Height="Auto" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Style="{StaticResource RelTool_Button}" HorizontalAlignment="Left" Margin="45,161,0,0" Width="120" Click="RelTool_Click" Height="24" VerticalAlignment="Top"/>
+        <Button Style="{StaticResource Mirror_Button}" HorizontalAlignment="Left" Margin="45,190,0,0" Width="120" Click="Mirror_Click" Height="24" VerticalAlignment="Top"/>
+        <Button Style="{StaticResource Transformation_Button}" HorizontalAlignment="Left" Margin="45,269,0,0" Width="120" Click="Multi_Click" Height="24" VerticalAlignment="Top"/>
+        <Button Style="{StaticResource TCPCalc_Button}" HorizontalAlignment="Left" Margin="45,348,0,0" Width="120" Click="OnePosTCP_Click" Height="24" VerticalAlignment="Top"/>
+        <Button Style="{StaticResource BaseCalc_Button}" HorizontalAlignment="Left" Margin="45,377,0,0" Width="120" Click="Base_Click" Height="24" VerticalAlignment="Top"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto" Margin="170,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="37*"/>
+                <RowDefinition Height="10*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="78"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="60*"/>
+                <ColumnDefinition Width="32*"/>
+            </Grid.ColumnDefinitions>
 
-    <Grid>
-        <Button Style="{StaticResource Einlesen_Button}" Width="60" Height="240" Margin="731,240,1,0" Click="Button_Einlesen" Visibility="Hidden"/>
-        <Button Style="{StaticResource Reset_Button}" HorizontalAlignment="Left" Margin="45,17,0,0" VerticalAlignment="Top" Width="120" Click="Reset_Click"/>
-        <Button Style="{StaticResource RelBase_Button}" HorizontalAlignment="Left" Margin="45,132,0,0" VerticalAlignment="Top" Width="120" Click="XYZShift_Click"/>
-        <Button Style="{StaticResource RelTool_Button}" HorizontalAlignment="Left" Margin="45,161,0,0" VerticalAlignment="Top" Width="120" Click="RelTool_Click"/>
-        <Button Style="{StaticResource Mirror_Button}" HorizontalAlignment="Left" Margin="45,190,0,0" VerticalAlignment="Top" Width="120" Click="Mirror_Click"/>
-        <Button Style="{StaticResource Transformation_Button}" HorizontalAlignment="Left" Margin="45,269,0,0" VerticalAlignment="Top" Width="120" Click="Multi_Click"/>
-        <Button Style="{StaticResource TCPCalc_Button}" HorizontalAlignment="Left" Margin="45,348,0,0" VerticalAlignment="Top" Width="120" Click="OnePosTCP_Click"/>
-        <Button Style="{StaticResource BaseCalc_Button}" HorizontalAlignment="Left" Margin="45,377,0,0" VerticalAlignment="Top" Width="120" Click="Base_Click"/>
-
-        <TextBox x:Name="X_Value_KUKA" HorizontalAlignment="Left" Height="23" Margin="267,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="X" Text="X" />
-        <TextBox x:Name="Y_Value_KUKA" HorizontalAlignment="Left" Height="23" Margin="406,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="Y" Text="Y" />
-        <TextBox x:Name="Z_Value_KUKA" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="552,76,0,0" Tag="Z" Text="Z" />
-        <TextBox x:Name="rZ_Value_KUKA" HorizontalAlignment="Left" Height="23" Margin="267,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="A(rZ)" Text="A(rZ)" />
-        <TextBox x:Name="rY_Value_KUKA" HorizontalAlignment="Left" Height="23" Margin="406,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="B(rY)" Text="B(rY)" />
-        <TextBox x:Name="rX_Value_KUKA" HorizontalAlignment="Left" Height="23" Margin="552,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="C(rX)" Text="C(rX)" />
-        <Label Content="Eingabe einer Location mit RPY-Winkel (KUKA)" HorizontalAlignment="Left" Margin="267,40,0,0" VerticalAlignment="Top" Width="405" FontSize="16" FontFamily="Calibri"/>
-        <TextBox x:Name="X_Value_ABB" HorizontalAlignment="Left" Height="23" Margin="267,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="X" Text="X" />
-        <TextBox x:Name="Y_Value_ABB" HorizontalAlignment="Left" Height="23" Margin="406,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="Y" Text="Y" />
-        <TextBox x:Name="Z_Value_ABB" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="552,190,0,0" Tag="Z" Text="Z" />
-        <TextBox x:Name="Q1_Value_ABB" HorizontalAlignment="Left" Height="23" Margin="267,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="Q1" Text="Q1" />
-        <TextBox x:Name="Q2_Value_ABB" HorizontalAlignment="Left" Height="23" Margin="371,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="Q2" Text="Q2" />
-        <TextBox x:Name="Q3_Value_ABB" HorizontalAlignment="Left" Height="23" Margin="475,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="Q3" Text="Q3" />
-        <TextBox x:Name="Q4_Value_ABB" HorizontalAlignment="Left" Height="23" Margin="577,230,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="Q4" Text="Q4" />
-        <Label Content="Eingabe einer Location mit Quaternien" HorizontalAlignment="Left" Margin="267,154,0,0" VerticalAlignment="Top" Width="405" FontSize="16" FontFamily="Calibri"/>
-        <Label Content="Eingabe einer Location Matrix" HorizontalAlignment="Left" Margin="267,268,0,0" VerticalAlignment="Top" Width="405" FontSize="16" FontFamily="Calibri"/>
-        <TextBox x:Name="F11_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="267,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="1|1" Text="1|1" />
-        <TextBox x:Name="F12_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="371,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="1|2" Text="1|2" />
-        <TextBox x:Name="F13_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="475,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="1|3" Text="1|3" />
-        <TextBox x:Name="F14_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="577,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="1|4" Text="1|4" />
-        <TextBox x:Name="F21_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="267,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="2|1" Text="2|1" />
-        <TextBox x:Name="F22_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="371,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="2|2" Text="2|2" />
-        <TextBox x:Name="F23_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="475,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="2|3" Text="2|3" />
-        <TextBox x:Name="F24_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="577,332,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="2|4" Text="2|4" />
-        <TextBox x:Name="F31_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="267,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="3|1" Text="3|1" />
-        <TextBox x:Name="F32_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="371,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="3|2" Text="3|2" />
-        <TextBox x:Name="F33_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="475,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="3|3" Text="3|3" />
-        <TextBox x:Name="F34_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="577,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="3|4" Text="3|4" />
-        <TextBox x:Name="F41_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="267,388,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="4|1" Text="4|1" />
-        <TextBox x:Name="F42_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="371,388,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="4|2" Text="4|2" />
-        <TextBox x:Name="F43_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="475,388,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="4|3" Text="4|3" />
-        <TextBox x:Name="F44_Value_Matrix" HorizontalAlignment="Left" Height="23" Margin="577,388,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Tag="4|4" Text="4|4" />
-        <Button Style="{StaticResource Umrechnen_Button}" HorizontalAlignment="Left" Margin="45,48,0,0" VerticalAlignment="Top" Width="120" Click="Button_Einlesen"/>
-        <Label Content="Bitte nur einen Typ komplett ausfüllen!" HorizontalAlignment="Left" Margin="267,10,0,0" VerticalAlignment="Top" Width="405" FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+            <Label Content="Bitte nur einen Typ komplett ausfüllen!" Margin="0,0,0,0" FontFamily="Calibri" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConLabel}}" FontWeight="Bold" VerticalContentAlignment="Bottom" Grid.ColumnSpan="6" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <Label Content="Eingabe einer Location mit RPY-Winkel (KUKA)" Margin="0,0,0,0" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConLabel}}" FontFamily="Calibri" Grid.ColumnSpan="6" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="X_Value_KUKA" Margin="5,5,5,5" TextWrapping="Wrap" Height="Auto" Width="Auto" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="X" Text="X" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <TextBox x:Name="Y_Value_KUKA" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Y" Text="Y" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Z_Value_KUKA" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}"  Tag="Z" Text="Z" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="rZ_Value_KUKA" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="A(rZ)" Text="A(rZ)" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="rY_Value_KUKA" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="B(rY)" Text="B(rY)" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="rX_Value_KUKA" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="C(rX)" Text="C(rX)" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="2" Width="Auto" Height="Auto"/>
+            <Label Content="Eingabe einer Location mit Quaternien" Margin="0,0,0,0" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConLabel}}" FontFamily="Calibri" Grid.ColumnSpan="6" Grid.Column="1" Grid.Row="4"/>
+            <TextBox x:Name="X_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="X" Text="X" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Y_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Y" Text="Y" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Z_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Z" Text="Z" Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Q1_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Q1" Text="Q1" Grid.Column="1" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Q2_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Q2" Text="Q2" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Q3_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Q3" Text="Q3" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="Q4_Value_ABB" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="Q4" Text="Q4" Grid.Column="6" Grid.Row="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <Label Content="Eingabe einer Location Matrix" Margin="0,0,0,0"  FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConLabel}}" FontFamily="Calibri" Grid.ColumnSpan="6" Grid.Column="1" Grid.Row="7"/>
+            <TextBox x:Name="F11_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="1|1" Text="1|1" Grid.Column="1" Grid.Row="8" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F12_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="1|2" Text="1|2" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="8" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F13_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="1|3" Text="1|3" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="8" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F14_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="1|4" Text="1|4" Grid.Column="6" Grid.Row="8" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F21_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="2|1" Text="2|1" Grid.Column="1" Grid.Row="9" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F22_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="2|2" Text="2|2" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="9" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F23_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="2|3" Text="2|3" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="9" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F24_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="2|4" Text="2|4" Grid.Column="6" Grid.Row="9" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F31_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="3|1" Text="3|1" Grid.Column="1" Grid.Row="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F32_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="3|2" Text="3|2" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F33_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="3|3" Text="3|3" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F34_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="3|4" Text="3|4" Grid.Column="6" Grid.Row="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F41_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="4|1" Text="4|1" Grid.Column="1" Grid.Row="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F42_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="4|2" Text="4|2" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F43_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="4|3" Text="4|3" Grid.ColumnSpan="2" Grid.Column="4" Grid.Row="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+            <TextBox x:Name="F44_Value_Matrix" Margin="5,5,5,5" TextWrapping="Wrap" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" Tag="4|4" Text="4|4" Grid.Column="6" Grid.Row="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        </Grid>
+        <Button Style="{StaticResource Umrechnen_Button}" HorizontalAlignment="Left" Margin="45,48,0,0" Width="120" Click="Button_Einlesen" Height="24" VerticalAlignment="Top"/>
     </Grid>
 </Page>

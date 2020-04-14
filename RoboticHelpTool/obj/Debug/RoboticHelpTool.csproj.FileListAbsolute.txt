@@ -70,3 +70,4 @@ D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBasePage.g.cs
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBasePage.baml
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBaseShowPage.g.cs
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBaseShowPage.baml
+D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\GeneratedInternalTypeHelper.g.cs

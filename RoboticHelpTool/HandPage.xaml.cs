@@ -1102,6 +1102,5 @@ namespace RoboticHelpTool
             Robdecision.Show();
 
         }
-
     }
 }
