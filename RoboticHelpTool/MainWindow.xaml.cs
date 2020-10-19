@@ -63,9 +63,9 @@ namespace RoboticHelpTool
             InfoBox info = new InfoBox();
             info.Owner = Application.Current.MainWindow;
             info.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            info.InfoBox_Text.Content = "Programmierer: Dennis Kellermann \n" +
+            info.InfoBox_Text.Content = "Programmierer: D.K \n" +
                                      "Bei Fragen oder Fehlern bitte Rückmeldung \n" +
-                                     "an kellermann@tsr-automation.de";
+                                     "an https://github.com/DaCaveman";
             info.OK_Button.Visibility = Visibility.Visible;
             info.Abbruch_Button.Visibility = Visibility.Hidden;
             info.Manual_Button.Visibility = Visibility.Visible;

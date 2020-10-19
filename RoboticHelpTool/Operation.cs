@@ -390,7 +390,12 @@ namespace RoboticHelpTool
                 tmpMatrixLocationA = new MatrixLocation(A as KukaLocation);
 
                 tmpMatrixLocationC.Type = tmpMatrixLocationB.Type;
-                tmpMatrixLocationC.Name = tmpMatrixLocationA.Name;
+
+                //Changed for transformation from Location in files over a base 20200721
+                //wrong order of matrix multiplication
+                //tmpMatrixLocationC.Name = tmpMatrixLocationA.Name;
+                tmpMatrixLocationC.Name = tmpMatrixLocationB.Name;
+
                 tmpMatrixLocationC.Feld11 = tmpMatrixLocationA.Feld11 * tmpMatrixLocationB.Feld11
                                           + tmpMatrixLocationA.Feld12 * tmpMatrixLocationB.Feld21
                                           + tmpMatrixLocationA.Feld13 * tmpMatrixLocationB.Feld31

@@ -622,6 +622,7 @@ namespace RoboticHelpTool
         public void MultiButton(object sender, EventArgs e)
         {
             KukaLocation kukaLocation;
+            KukaLocation kukalocationInv;
 
             //leeren der Zwischenspeicher KukaLocation Liste
             KukaLocation.KukaLocationsAktuellMulti.Clear();
@@ -633,11 +634,15 @@ namespace RoboticHelpTool
             //Zwischenspeichern der KukaLocation Liste
             foreach (var item in KukaLocation.KukaLocationsAktuell)
                 //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
-                KukaLocation.KukaLocationsAktuellMulti.Add(kukaLocation = new KukaLocation(Operation.MultiLocation(Hand2nd.kukaLocation, item)));
+                
+                //Changed for transformation from Location in files over a base 20200721
+                //wrong order of matrix multiplication
+                //KukaLocation.KukaLocationsAktuellMulti.Add(kukaLocation = new KukaLocation(Operation.MultiLocation(Hand2nd.kukaLocation, item)));
+                KukaLocation.KukaLocationsAktuellMulti.Add(kukaLocation = new KukaLocation(Operation.MultiLocation(item, Hand2nd.kukaLocation)));
 
-            //Umwandeln von Location Objekten zu
-            //String Objekten die vom Roboter gelesen werden können
-            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+                //Umwandeln von Location Objekten zu
+                //String Objekten die vom Roboter gelesen werden können
+                KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMulti);
 
             //löschen der letzten Datei
             File.Delete("tmpOutputKukaMulti.src");

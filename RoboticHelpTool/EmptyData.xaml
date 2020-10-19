@@ -8,37 +8,6 @@
       d:DesignHeight="400" d:DesignWidth="560"
       Title="EmptyData">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto">
-        <Rectangle Name="LogoRectangle" Margin="139,148,23,160" Visibility="Hidden">
-            <Rectangle.Style>
-                <Style TargetType="Rectangle">
-                    <Setter Property="Fill" Value="{DynamicResource TSR_Logo}"/>
-                </Style>
-            </Rectangle.Style>
-            <Rectangle.Triggers>
-                <EventTrigger RoutedEvent="Window.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard RepeatBehavior="Forever" Duration="0:0:2" AutoReverse="True">
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Duration="0:0:1">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{DynamicResource TSR_Logo}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Duration="0:0:1">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{DynamicResource TSR_Logo_Inv}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Rectangle.Triggers>
-        </Rectangle>
-        <Rectangle Margin="132,278,30,30" Visibility="Visible">
-            <Rectangle.Effect>
-                <DropShadowEffect Opacity="0.5" />
-            </Rectangle.Effect>
-            <Rectangle.Style>
-                <Style TargetType="Rectangle">
-                    <Setter Property="Fill" Value="{DynamicResource TSR_Logo}"/>
-                </Style>
-            </Rectangle.Style>
-        </Rectangle>
 
     </Grid>
 </Page>

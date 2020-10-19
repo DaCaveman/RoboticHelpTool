@@ -6,24 +6,39 @@
         xmlns:local="clr-namespace:RoboticHelpTool"
         mc:Ignorable="d"
         Closing="XYZShiftClosing"
-        Title="XYZShift" Height="150" Width="450"  ShowInTaskbar="False" ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FF616161" WindowStyle="None">
-
+        Title="XYZShift" Height="150" Width="450"  ShowInTaskbar="False" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FF616161" WindowStyle="None">
+    <Window.Resources>
+        <local:FontSizeConverterTextBoxSmall x:Key="fontSizeConTextBox" />
+        <local:FontSizeConverterLabelSmall x:Key="fontSizeConLabel" />
+    </Window.Resources>
     <Grid>
-        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" Height="150" VerticalAlignment="Top"/>
-        <TextBox x:Name="X" HorizontalAlignment="Left" Height="23" Margin="40,46,0,0" TextWrapping="Wrap" Text="X" VerticalAlignment="Top" Width="120" AccessKeyManager.AccessKeyPressed="Enter_Press"/>
-        <TextBox x:Name="Y" HorizontalAlignment="Left" Height="23" Margin="164,46,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="120" AccessKeyManager.AccessKeyPressed="Enter_Press"/>
-        <TextBox x:Name="Z" HorizontalAlignment="Left" Height="23" Margin="290,46,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="120" AccessKeyManager.AccessKeyPressed="Enter_Press"/>
-        <Button Style="{StaticResource X_Button}" Width="20" Height="20" Margin="425,5,5,125" Click="Button_Close">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="139*"/>
+            <ColumnDefinition Width="130*"/>
+            <ColumnDefinition Width="12"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="14*"/>
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="19*"/>
+        </Grid.RowDefinitions>
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.RowSpan="3" Grid.ColumnSpan="5"/>
+        <TextBox x:Name="X" Margin= "5,10,5,5" TextWrapping="Wrap" Text="X" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" AccessKeyManager.AccessKeyPressed="Enter_Press" Grid.Column="1" Grid.Row="1"/>
+        <TextBox x:Name="Y" Margin="5,10,5,5" TextWrapping="Wrap" Text="Y" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" AccessKeyManager.AccessKeyPressed="Enter_Press" Grid.Column="2" Grid.Row="1"/>
+        <TextBox x:Name="Z" Margin="5,10,5,5" TextWrapping="Wrap" Text="Z" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConTextBox}}" AccessKeyManager.AccessKeyPressed="Enter_Press" Grid.Column="3" Grid.Row="1"/>
+        <Button Style="{StaticResource X_Button}" Margin="0,2,5,0" Click="Button_Close" Grid.Column="3" Height="20" Width="20" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Button.Effect>
                 <DropShadowEffect Opacity="0.5" />
             </Button.Effect>
         </Button>
-        <Button Style="{StaticResource OK_Button}" HorizontalAlignment="Left" Margin="165,99,0,0" VerticalAlignment="Top" Width="120" Click="Button_Click" >
+        <Button Style="{StaticResource OK_Button}" HorizontalAlignment="Right" Margin="0,0,4,10" VerticalAlignment="Bottom" Width="120" Click="Button_Click" Grid.Row="2" Height="24" Grid.Column="3" >
             <Button.Effect>
                 <DropShadowEffect Opacity="0.5" />
             </Button.Effect>
         </Button>
-        <Label Content="Bitte alle Parameter benennen!" Margin="40,21,40,104"/>
+        <Label Content="Bitte alle Parameter benennen!" FontSize="{Binding Path=ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}, Converter={StaticResource fontSizeConLabel}}" Margin="0,10,16,0" Grid.Column="1" Grid.ColumnSpan="3"/>
 
     </Grid>
 </Window>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoboticHelpTool"
         mc:Ignorable="d"
-        Title="Robotic Help Tool" Height="440" Width="1000" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStyle="None" Icon="TSR.ico" AllowDrop="True" >
+        Title="Robotic Help Tool" Height="440" Width="1000" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStyle="None" AllowDrop="True" >
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
             <GradientStop Color="#FF575757" Offset="1"/>
@@ -15,7 +15,7 @@
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" Width="Auto">
         <Frame x:Name="MainData" NavigationUIVisibility="Hidden" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" 
                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="Auto" Margin="200,0,0,0" />
-        <Border BorderBrush="#FFF3EF1E" BorderThickness="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
         <Label Content="RoboticHelpTool" Margin="10,0,0,0" FontFamily="Calibri" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Width="106" Height="25" VerticalAlignment="Top"/>
         <Button Style="{StaticResource X_Button}" Width="20" HorizontalAlignment="Right" Margin="0,2,5,0" Click="Button_Close" Height="20" VerticalAlignment="Top" >
             <Button.Effect>
