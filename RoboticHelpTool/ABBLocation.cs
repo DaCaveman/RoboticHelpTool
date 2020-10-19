@@ -301,12 +301,8 @@ namespace RoboticHelpTool
 
         public ABBLocation(KukaLocation kukaLocation)
         {
-            double l1;
-            double m1;
-            double n1;
-            double l;
-            double m;
-            double n;
+            double S;
+            double tr;
 
             Name = kukaLocation.Name;
             Type = kukaLocation.Type;
@@ -332,71 +328,39 @@ namespace RoboticHelpTool
             double feld32 = Math.Cos(DegToRad(kukaLocation.BAngle)) * Math.Sin(DegToRad(kukaLocation.CAngle));
             double feld33 = Math.Cos(DegToRad(kukaLocation.BAngle)) * Math.Cos(DegToRad(kukaLocation.CAngle));
 
-            double cosQ = (0.5) * (feld11 + feld22 + feld33 - 1);
-            double tanQ = (Math.Sqrt(((feld32 - feld23) * (feld32 - feld23)) + ((feld13 - feld31) * (feld13 - feld31))
-                    + ((feld21 - feld12) * (feld21 - feld12)))) / (feld11 + feld22 + feld33 - 1);
-            double qRad = Math.Atan2(0.5 * Math.Sqrt((((feld32 - feld23) * (feld32 - feld23)) + ((feld13 - feld31) * (feld13 - feld31))
-                    + ((feld21 - feld12) * (feld21 - feld12)))), (cosQ));
-            double qDeg = RadToDeg(qRad);
-
-            if ((feld32 - feld23) > 0)
-                l1 = Math.Sqrt((feld11 - cosQ) / (1 - cosQ));
+            tr = feld11 + feld22 + feld33;
+            if (tr > 0)
+            {
+                S = Math.Sqrt(tr + 1.0) * 2;
+                Q1Value = 0.25 * S;
+                Q2Value = (feld32 - feld23) / S;
+                Q3Value = (feld13 - feld31) / S;
+                Q4Value = (feld21 - feld12) / S;
+            }
+            else if ((feld11 > feld22) & (feld11 > feld33))
+            {
+                S = Math.Sqrt(1.0 + feld11 - feld22 - feld33) * 2; // S=4*qx 
+                Q1Value = (feld32 - feld23) / S;
+                Q2Value = 0.25 * S;
+                Q3Value = (feld12 + feld21) / S;
+                Q4Value = (feld13 + feld31) / S;
+            }
+            else if (feld22 > feld33)
+            {
+                S = Math.Sqrt(1.0 + feld22 - feld11 - feld33) * 2; // S=4*qy
+                Q1Value = (feld13 - feld31) / S;
+                Q2Value = (feld12 + feld12) / S;
+                Q3Value = 0.25 * S;
+                Q4Value = (feld23 + feld32) / S;
+            }
             else
             {
-                if (cosQ == 1)
-                    l1 = 0;
-                else
-                    l1 = -1 * Math.Sqrt((feld11 - cosQ) / (1 - cosQ));
+                S = Math.Sqrt(1.0 + feld33 - feld11 - feld22) * 2; // S=4*qz
+                Q1Value = (feld21 - feld21) / S;
+                Q2Value = (feld13 + feld31) / S;
+                Q3Value = (feld23 + feld32) / S;
+                Q4Value = 0.25 * S;
             }
-            if ((feld13 - feld31) > 0)
-                m1 = Math.Sqrt((feld22 - cosQ) / (1 - cosQ));
-            else
-            {
-                if (cosQ == 1)
-                    m1 = 0;
-                else
-                    m1 = -1 * Math.Sqrt((feld22 - cosQ) / (1 - cosQ));
-            }
-            if ((feld21 - feld12) > 0)
-                n1 = Math.Sqrt((feld33 - cosQ) / (1 - cosQ));
-            else
-            {
-                if (cosQ == 1)
-                    n1 = 0;
-                else
-                    n1 = -1 * Math.Sqrt((feld33 - cosQ) / (1 - cosQ));
-            }
-            if (Math.Abs(l1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                l = l1;
-            else
-            {
-                if (Math.Abs(m1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                    l = (feld21 + feld12) / (2 * m1 * (1 - cosQ));
-                else
-                    l = (feld31 + feld13) / (2 * n1 * (1 - cosQ));
-            }
-            if (Math.Abs(m1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                m = m1;
-            else
-            {
-                if (Math.Abs(l1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                    m = (feld21 + feld12) / (2 * l1 * (1 - cosQ));
-                else
-                    m = (feld32 + feld23) / (2 * n1 * (1 - cosQ));
-            }
-            if (Math.Abs(n1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                n = n1;
-            else
-            {
-                if (Math.Abs(l1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                    n = (feld31 + feld13) / (2 * l1 * (1 - cosQ));
-                else
-                    n = (feld32 + feld23) / (2 * m1 * (1 - cosQ));
-            }
-            Q1Value = Math.Cos(qRad / 2);
-            Q2Value = Math.Sin(qRad / 2) * l;
-            Q3Value = Math.Sin(qRad / 2) * m;
-            Q4Value = Math.Sin(qRad / 2) * n;
             E1Value = kukaLocation.E1Value;
             E2Value = kukaLocation.E2Value;
             E3Value = kukaLocation.E3Value;
