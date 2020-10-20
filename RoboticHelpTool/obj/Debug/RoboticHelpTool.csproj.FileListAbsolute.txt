@@ -115,3 +115,5 @@ d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.exe.manifest
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.application
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.exe
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.pdb
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.g.cs
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.baml

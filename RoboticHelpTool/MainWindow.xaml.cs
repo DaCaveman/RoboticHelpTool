@@ -56,6 +56,11 @@ namespace RoboticHelpTool
         private void Button_ABB(object sender, RoutedEventArgs e)
         {
 
+            ABBFilePage abb = new ABBFilePage();
+            MainData.Navigate(abb);
+
+            MainData.NavigationService.RemoveBackEntry();
+
         }
 
         private void Button_Info(object sender, RoutedEventArgs e)

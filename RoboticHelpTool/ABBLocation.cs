@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RoboticHelpTool
 {
@@ -181,7 +185,7 @@ namespace RoboticHelpTool
         {
             if (name != null || type != null || name != "" || type != "")
             {
-                if (type == "robtarget")
+                if (type.CaseInsensitiveContains("robtarget"))
                 {
                     Name = name;
                     Type = type;
@@ -208,13 +212,8 @@ namespace RoboticHelpTool
 
         public ABBLocation(MatrixLocation matrixLocation)
         {
-            double l1;
-            double m1;
-            double n1;
-            double l;
-            double m;
-            double n;
-
+            double S;
+            double tr;
 
             Name = matrixLocation.Name;
             Type = matrixLocation.Type;
@@ -222,71 +221,39 @@ namespace RoboticHelpTool
             YCoordinate = matrixLocation.Feld24;
             ZCoordinate = matrixLocation.Feld34;
 
-            double cosQ = (0.5) * (matrixLocation.Feld11 + matrixLocation.Feld22 + matrixLocation.Feld33 - 1);
-            double tanQ = (Math.Sqrt(((matrixLocation.Feld32 - matrixLocation.Feld23) * (matrixLocation.Feld32 - matrixLocation.Feld23)) + ((matrixLocation.Feld13 - matrixLocation.Feld31) * (matrixLocation.Feld13 - matrixLocation.Feld31))
-                    + ((matrixLocation.Feld21 - matrixLocation.Feld12) * (matrixLocation.Feld21 - matrixLocation.Feld12)))) / (matrixLocation.Feld11 + matrixLocation.Feld22 + matrixLocation.Feld33 - 1);
-            double qRad = Math.Atan2(0.5 * Math.Sqrt((((matrixLocation.Feld32 - matrixLocation.Feld23) * (matrixLocation.Feld32 - matrixLocation.Feld23)) + ((matrixLocation.Feld13 - matrixLocation.Feld31) * (matrixLocation.Feld13 - matrixLocation.Feld31))
-                    + ((matrixLocation.Feld21 - matrixLocation.Feld12) * (matrixLocation.Feld21 - matrixLocation.Feld12)))), (cosQ));
-            double qDeg = RadToDeg(qRad);
-
-            if ((matrixLocation.Feld32 - matrixLocation.Feld23) > 0)
-                l1 = Math.Sqrt((matrixLocation.Feld11 - cosQ) / (1 - cosQ));
+            tr = matrixLocation.Feld11 + matrixLocation.Feld22 + matrixLocation.Feld33;
+            if (tr > 0)
+            {
+                S = Math.Sqrt(tr + 1.0) * 2;
+                Q1Value = 0.25 * S;
+                Q2Value = (matrixLocation.Feld32 - matrixLocation.Feld23) / S;
+                Q3Value = (matrixLocation.Feld13 - matrixLocation.Feld31) / S;
+                Q4Value = (matrixLocation.Feld21 - matrixLocation.Feld12) / S;
+            }
+            else if ((matrixLocation.Feld11 > matrixLocation.Feld22) & (matrixLocation.Feld11 > matrixLocation.Feld33))
+            {
+                S = Math.Sqrt(1.0 + matrixLocation.Feld11 - matrixLocation.Feld22 - matrixLocation.Feld33) * 2; // S=4*qx 
+                Q1Value = (matrixLocation.Feld32 - matrixLocation.Feld23) / S;
+                Q2Value = 0.25 * S;
+                Q3Value = (matrixLocation.Feld12 + matrixLocation.Feld21) / S;
+                Q4Value = (matrixLocation.Feld13 + matrixLocation.Feld31) / S;
+            }
+            else if (matrixLocation.Feld22 > matrixLocation.Feld33)
+            {
+                S = Math.Sqrt(1.0 + matrixLocation.Feld22 - matrixLocation.Feld11 - matrixLocation.Feld33) * 2; // S=4*qy
+                Q1Value = (matrixLocation.Feld13 - matrixLocation.Feld31) / S;
+                Q2Value = (matrixLocation.Feld12 + matrixLocation.Feld12) / S;
+                Q3Value = 0.25 * S;
+                Q4Value = (matrixLocation.Feld23 + matrixLocation.Feld32) / S;
+            }
             else
             {
-                if (cosQ == 1)
-                    l1 = 0;
-                else
-                    l1 = -1 * Math.Sqrt((matrixLocation.Feld11 - cosQ) / (1 - cosQ));
+                S = Math.Sqrt(1.0 + matrixLocation.Feld33 - matrixLocation.Feld11 - matrixLocation.Feld22) * 2; // S=4*qz
+                Q1Value = (matrixLocation.Feld21 - matrixLocation.Feld21) / S;
+                Q2Value = (matrixLocation.Feld13 + matrixLocation.Feld31) / S;
+                Q3Value = (matrixLocation.Feld23 + matrixLocation.Feld32) / S;
+                Q4Value = 0.25 * S;
             }
-            if ((matrixLocation.Feld13 - matrixLocation.Feld31) > 0)
-                m1 = Math.Sqrt((matrixLocation.Feld22 - cosQ) / (1 - cosQ));
-            else
-            {
-                if (cosQ == 1)
-                    m1 = 0;
-                else
-                    m1 = -1 * Math.Sqrt((matrixLocation.Feld22 - cosQ) / (1 - cosQ));
-            }
-            if ((matrixLocation.Feld21 - matrixLocation.Feld12) > 0)
-                n1 = Math.Sqrt((matrixLocation.Feld33 - cosQ) / (1 - cosQ));
-            else
-            {
-                if (cosQ == 1)
-                    n1 = 0;
-                else
-                    n1 = -1 * Math.Sqrt((matrixLocation.Feld33 - cosQ) / (1 - cosQ));
-            }
-            if (Math.Abs(l1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                l = l1;
-            else
-            {
-                if (Math.Abs(m1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                    l = (matrixLocation.Feld21 + matrixLocation.Feld12) / (2 * m1 * (1 - cosQ));
-                else
-                    l = (matrixLocation.Feld31 + matrixLocation.Feld13) / (2 * n1 * (1 - cosQ));
-            }
-            if (Math.Abs(m1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                m = m1;
-            else
-            {
-                if (Math.Abs(l1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                    m = (matrixLocation.Feld21 + matrixLocation.Feld12) / (2 * l1 * (1 - cosQ));
-                else
-                    m = (matrixLocation.Feld32 + matrixLocation.Feld23) / (2 * n1 * (1 - cosQ));
-            }
-            if (Math.Abs(n1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                n = n1;
-            else
-            {
-                if (Math.Abs(l1) == Math.Max(Math.Max(Math.Abs(l1), Math.Abs(m1)), Math.Abs(n1)))
-                    n = (matrixLocation.Feld31 + matrixLocation.Feld13) / (2 * l1 * (1 - cosQ));
-                else
-                    n = (matrixLocation.Feld32 + matrixLocation.Feld23) / (2 * m1 * (1 - cosQ));
-            }
-            Q1Value = Math.Cos(qRad / 2);
-            Q2Value = Math.Sin(qRad / 2) * l;
-            Q3Value = Math.Sin(qRad / 2) * m;
-            Q4Value = Math.Sin(qRad / 2) * n;
             Cf1Value = matrixLocation.Cf1;
             Cf4Value = matrixLocation.Cf4;
             Cf6Value = matrixLocation.Cf6;
@@ -367,6 +334,205 @@ namespace RoboticHelpTool
             E4Value = kukaLocation.E4Value;
             E5Value = kukaLocation.E5Value;
             E6Value = kukaLocation.E6Value;
+        }
+
+        //Methode zum aufsplitten der Deklarationen von E6POS "Strings" in abfragbare und
+        // bearbeitbare Werte z.B. Dezimal usw.
+        public static void LocationSplit()
+        {
+            StreamReader datei;
+            datei = File.OpenText(ABBFilePage.DateiOrtDat);
+            string zeile = "";
+            string[] felder;
+            string[] name;
+            Double XCoordinate;
+            Double YCoordinate;
+            Double ZCoordinate;
+            Double Q1;
+            Double Q2;
+            Double Q3;
+            Double Q4;
+            int cf1;
+            int cf2;
+            int cf3;
+            int cf4;
+            Double E1Value;
+            Double E2Value;
+            Double E3Value;
+            Double E4Value;
+            Double E5Value;
+            Double E6Value;
+            ABBLocation abbTemp;
+
+            while (datei.Peek() != -1) //Solange bis Dateiende erreicht
+            {
+                zeile = datei.ReadLine(); // Zeile lesen
+
+                //finden von Deklarationen von E6POS
+                if (zeile.CaseInsensitiveContains("CONST robtarget") || zeile.CaseInsensitiveContains("VAR robtarget"))
+                {
+
+                    felder = zeile.Split(new char[] { '[', ',', ']', '=', ':' }); // Zeile an "Chars" aufbrechen
+
+                    //Ausplitten für den Namen der Location
+                    name = felder[0].Split(new char[] { ' ' });
+
+                    // Aufgesplitte Zeile Zuweisen und in Dezimal umwandeln
+                    if (felder.Length > 10)
+                    {
+                        string[] XCoordinateDec = Regex.Split(felder[4], @"[^-?\d*\.{0,1}\d+$]")                                    //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        XCoordinate = Convert.ToDouble(XCoordinateDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });//Sting in Double konvertieren
+                        string[] YCoordinateDec = Regex.Split(felder[5], @"[^-?\d*\.{0,1}\d+$]")                                    //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        YCoordinate = Convert.ToDouble(YCoordinateDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });//Sting in Double konvertieren
+                        string[] ZCoordinateDec = Regex.Split(felder[6], @"[^-?\d*\.{0,1}\d+$]")                                    //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        ZCoordinate = Convert.ToDouble(ZCoordinateDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });//Sting in Double konvertieren
+                        string[] Q1Dec = Regex.Split(felder[9], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        Q1 = Convert.ToDouble(Q1Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+                        string[] Q2Dec = Regex.Split(felder[10], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        Q2 = Convert.ToDouble(Q2Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+                        string[] Q3Dec = Regex.Split(felder[11], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        Q3 = Convert.ToDouble(Q3Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+                        string[] Q4Dec = Regex.Split(felder[12], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                            .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                        Q4 = Convert.ToDouble(Q4Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+
+                        try
+                        {
+                            string[] cf1Dec = Regex.Split(felder[15], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                         //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            cf1 = Convert.ToInt16(cf1Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });            //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            cf1 = 0;
+                        }
+                        try
+                        {
+                            string[] cf2Dec = Regex.Split(felder[16], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                           //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            cf2 = Convert.ToInt16(cf2Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });                //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            cf2 = 0;
+                        }
+                        try
+                        {
+                            string[] cf3Dec = Regex.Split(felder[17], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                         //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            cf3 = Convert.ToInt16(cf3Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });            //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            cf3 = 0;
+                        }
+                        try
+                        {
+                            string[] cf4Dec = Regex.Split(felder[18], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                           //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            cf4 = Convert.ToInt16(cf4Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });                //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            cf4 = 0;
+                        }
+                        try
+                        {
+                            string[] E1ValueDec = Regex.Split(felder[21], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                 //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            if (E1ValueDec[0].CaseInsensitiveContains("9E+09"))
+                                E1ValueDec[0] = "0.0";
+                            E1Value = Convert.ToDouble(E1ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E1Value = 0;
+                        }
+                        try
+                        {
+                            string[] E2ValueDec = Regex.Split(felder[22], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            if (E2ValueDec[0].Equals("9E+09"))
+                                E2ValueDec[0] = "0.0";
+                            E2Value = Convert.ToDouble(E2ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E2Value = 0;
+                        }
+                        try
+                        {
+                            string[] E3ValueDec = Regex.Split(felder[23], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            if (E3ValueDec[0].Equals("9E+09"))
+                                E3ValueDec[0] = "0.0";
+                            E3Value = Convert.ToDouble(E3ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E3Value = 0;
+                        }
+                        try
+                        {
+                            string[] E4ValueDec = Regex.Split(felder[24], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            if (E4ValueDec[0].Equals("9E+09"))
+                                E4ValueDec[0] = "0.0";
+                            E4Value = Convert.ToDouble(E4ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E4Value = 0;
+                        }
+                        try
+                        {
+                            string[] E5ValueDec = Regex.Split(felder[25], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            if (E5ValueDec[0].Equals("9E+09"))
+                                E5ValueDec[0] = "0.0";
+                            E5Value = Convert.ToDouble(E5ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E5Value = 0;
+                        }
+                        try
+                        {
+                            string[] E6ValueDec = Regex.Split(felder[26], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            if (E6ValueDec[0].Equals("9E+09"))
+                                E6ValueDec[0] = "0.0";
+                            E6Value = Convert.ToDouble(E6ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E6Value = 0;
+                        }
+                        abbTemp = new ABBLocation(name[4] + " " + name[5] + " " + name[6], name[7], XCoordinate, YCoordinate, ZCoordinate
+                                , Q1, Q2, Q3, Q4, cf1, cf2, cf3, cf4, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value);
+                        KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(abbTemp));
+                    }
+                }
+            }
+
+            Console.WriteLine("Datei wurde eingelesen von: {0}", KukaFilePage.DateiOrtDat);
+            datei.Close();
         }
 
 
