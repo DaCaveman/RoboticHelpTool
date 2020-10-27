@@ -451,8 +451,8 @@ namespace RoboticHelpTool
                             string[] E1ValueDec = Regex.Split(felder[21], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                 //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
-                            if (E1ValueDec[0].CaseInsensitiveContains("9E+09"))
-                                E1ValueDec[0] = "0.0";
+                            //if (E1ValueDec[0].CaseInsensitiveContains("9E+09"))
+                            //    E1ValueDec[0] = "0.0";
                             E1Value = Convert.ToDouble(E1ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
                         }
                         catch
@@ -464,8 +464,8 @@ namespace RoboticHelpTool
                             string[] E2ValueDec = Regex.Split(felder[22], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
-                            if (E2ValueDec[0].Equals("9E+09"))
-                                E2ValueDec[0] = "0.0";
+                            //if (E2ValueDec[0].Equals("9E+09"))
+                            //    E2ValueDec[0] = "0.0";
                             E2Value = Convert.ToDouble(E2ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
                         }
                         catch
@@ -477,8 +477,8 @@ namespace RoboticHelpTool
                             string[] E3ValueDec = Regex.Split(felder[23], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
-                            if (E3ValueDec[0].Equals("9E+09"))
-                                E3ValueDec[0] = "0.0";
+                            //if (E3ValueDec[0].Equals("9E+09"))
+                            //    E3ValueDec[0] = "0.0";
                             E3Value = Convert.ToDouble(E3ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
                         }
                         catch
@@ -490,8 +490,8 @@ namespace RoboticHelpTool
                             string[] E4ValueDec = Regex.Split(felder[24], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
-                            if (E4ValueDec[0].Equals("9E+09"))
-                                E4ValueDec[0] = "0.0";
+                            //if (E4ValueDec[0].Equals("9E+09"))
+                            //    E4ValueDec[0] = "0.0";
                             E4Value = Convert.ToDouble(E4ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
                         }
                         catch
@@ -503,8 +503,8 @@ namespace RoboticHelpTool
                             string[] E5ValueDec = Regex.Split(felder[25], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
-                            if (E5ValueDec[0].Equals("9E+09"))
-                                E5ValueDec[0] = "0.0";
+                            //if (E5ValueDec[0].Equals("9E+09"))
+                            //    E5ValueDec[0] = "0.0";
                             E5Value = Convert.ToDouble(E5ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
                         }
                         catch
@@ -516,8 +516,8 @@ namespace RoboticHelpTool
                             string[] E6ValueDec = Regex.Split(felder[26], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
-                            if (E6ValueDec[0].Equals("9E+09"))
-                                E6ValueDec[0] = "0.0";
+                            //if (E6ValueDec[0].Equals("9E+09"))
+                            //    E6ValueDec[0] = "0.0";
                             E6Value = Convert.ToDouble(E6ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
                         }
                         catch
@@ -534,6 +534,29 @@ namespace RoboticHelpTool
             Console.WriteLine("Datei wurde eingelesen von: {0}", KukaFilePage.DateiOrtDat);
             datei.Close();
         }
+
+        //Methode zum umwandeln von Location Objecten zu fertigen E6POS "Strings"
+        //List<location> wird zu List<string>
+        public static void ABBListeToFile(List<KukaLocation> kukaLocation)
+        {
+            LocationsAktuellString.Clear();
+            foreach (var n in kukaLocation)
+            {
+                LocationsAktuellString.Add(String.Format(new NumberFormatInfo() { NumberDecimalSeparator = "." }
+                , "{0} {1}:=[[{2},{3},{4}],[{5},{6},{7}],[{8},{9},{10},{11}],[{12},{13},{14},{15},{16},{17}]];"
+                        , n.Type, n.Name
+                        , n.XCoordinate.ToString("0.#########").Replace(',', '.'), n.YCoordinate.ToString("0.#########").Replace(',', '.')
+                        , n.ZCoordinate.ToString("0.#########").Replace(',', '.')
+                        , n.AAngle.ToString("0.#########").Replace(',', '.'), n.BAngle.ToString("0.#########").Replace(',', '.')
+                        , n.CAngle.ToString("0.#########").Replace(',', '.')
+                        , n.StatusCf1, n.TurnCf4, n.Cf6, n.Cfx
+                        , n.E1Value.ToString("0.#########").Replace(',', '.'), n.E2Value.ToString("0.#########").Replace(',', '.')
+                        , n.E3Value.ToString("0.#########").Replace(',', '.')
+                        , n.E4Value.ToString("0.#########").Replace(',', '.'), n.E5Value.ToString("0.#########").Replace(',', '.')
+                        , n.E6Value.ToString("0.#########").Replace(',', '.')).Replace("9000000000", "9E+09"));
+            }
+        }
+
 
 
     }

@@ -359,24 +359,24 @@ namespace RoboticHelpTool
 
             //Umwandeln von Location Objekten zu
             //String Objekten die vom Roboter gelesen werden können
-            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
+            ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuell);
 
 			//Testsyntax für bestFit Test
-            Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+            //Operation.bestFit(KukaLocation.KukaLocationsAktuell);
 
             //löschen der letzten Datei
-            File.Delete("tmpOutputKuka.src");
+            File.Delete("tmpOutputABB.mod");
 
             //Initialisieren der neuen Datei
-            using (var file = new StreamWriter("tmpOutputKuka.src"))
+            using (var file = new StreamWriter("tmpOutputABB.mod"))
             {
                 //Schreiben in die Datei
                 //je Zeile ein String Objekt der Liste
-                KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
             }
 
             //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-            Process.Start("tmpOutputKuka.src");
+            Process.Start("tmpOutputABB.mod");
 
         }
 

@@ -320,8 +320,8 @@ namespace RoboticHelpTool
                 tmpKukaLocationC.AAngle = tmpKukaLocationA.AAngle * tmpKukaLocationB.AAngle;
                 tmpKukaLocationC.BAngle = tmpKukaLocationA.BAngle * tmpKukaLocationB.BAngle;
                 tmpKukaLocationC.CAngle = tmpKukaLocationA.CAngle * tmpKukaLocationB.CAngle;
-                tmpKukaLocationC.Status = tmpKukaLocationB.Status;
-                tmpKukaLocationC.Turn = tmpKukaLocationB.Turn;
+                tmpKukaLocationC.StatusCf1 = tmpKukaLocationB.StatusCf1;
+                tmpKukaLocationC.TurnCf4 = tmpKukaLocationB.TurnCf4;
                 tmpKukaLocationC.E1Value = tmpKukaLocationB.E1Value;
                 tmpKukaLocationC.E2Value = tmpKukaLocationB.E2Value;
                 tmpKukaLocationC.E3Value = tmpKukaLocationB.E3Value;
@@ -353,8 +353,8 @@ namespace RoboticHelpTool
                 tmpKukaLocationC.AAngle = tmpKukaLocationA.AAngle * tmpKukaLocationB.AAngle;
                 tmpKukaLocationC.BAngle = tmpKukaLocationA.BAngle * tmpKukaLocationB.BAngle;
                 tmpKukaLocationC.CAngle = tmpKukaLocationA.CAngle * tmpKukaLocationB.CAngle;
-                tmpKukaLocationC.Status = tmpKukaLocationB.Status;
-                tmpKukaLocationC.Turn = tmpKukaLocationB.Turn;
+                tmpKukaLocationC.StatusCf1 = tmpKukaLocationB.StatusCf1;
+                tmpKukaLocationC.TurnCf4 = tmpKukaLocationB.TurnCf4;
                 tmpKukaLocationC.E1Value = tmpKukaLocationB.E1Value;
                 tmpKukaLocationC.E2Value = tmpKukaLocationB.E2Value;
                 tmpKukaLocationC.E3Value = tmpKukaLocationB.E3Value;

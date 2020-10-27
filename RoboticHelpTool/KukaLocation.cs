@@ -50,8 +50,10 @@ namespace RoboticHelpTool
         protected double _AAngle;
         protected double _BAngle;
         protected double _CAngle;
-        protected int _Status;
-        protected int _Turn;
+        protected int _StatusCf1;
+        protected int _TurnCf4;
+        protected int _Cf6;
+        protected int _Cfx;
         protected double _E1Value;
         protected double _E2Value;
         protected double _E3Value;
@@ -99,15 +101,25 @@ namespace RoboticHelpTool
             get { return _CAngle; }
             set { _CAngle = value; }
         }
-        public virtual int Status
+        public virtual int StatusCf1
         {
-            get { return _Status; }
-            set { _Status = value; }
+            get { return _StatusCf1; }
+            set { _StatusCf1 = value; }
         }
-        public virtual int Turn
+        public virtual int TurnCf4
         {
-            get { return _Turn; }
-            set { _Turn = value; }
+            get { return _TurnCf4; }
+            set { _TurnCf4 = value; }
+        }
+        public virtual int Cf6
+        {
+            get { return _Cf6; }
+            set { _Cf6 = value; }
+        }
+        public virtual int Cfx
+        {
+            get { return _Cfx; }
+            set { _Cfx = value; }
         }
         public virtual double E1Value
         {
@@ -146,21 +158,26 @@ namespace RoboticHelpTool
 
         //--------------Konstruktoren------------------------
 
-        public KukaLocation() : this("", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) { }
+        public KukaLocation() : this("", "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) { }
 
-        public KukaLocation(string type, string name) : this(type, name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) { }
+        public KukaLocation(string type, string name) : this(type, name, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) { }
 
         public KukaLocation(string type, string name, double xCoordinate, double yCoordinate, double zCoordinate
                 , double aAngle, double bAngle, double cAngle)
-            : this(type, name, xCoordinate, yCoordinate, zCoordinate, aAngle, bAngle, cAngle, 0, 0, 0, 0, 0, 0, 0, 0) { }
+            : this(type, name, xCoordinate, yCoordinate, zCoordinate, aAngle, bAngle, cAngle, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) { }
 
         public KukaLocation(string type, string name, double xCoordinate, double yCoordinate, double zCoordinate
                 , double aAngle, double bAngle, double cAngle, double e1Value, double e2Value
                 , double e3Value, double e4Value, double e5Value, double e6Value)
-            : this(type, name, xCoordinate, yCoordinate, zCoordinate, aAngle, bAngle, cAngle, 0, 0, e1Value, e2Value, e3Value, e4Value, e5Value, e6Value) { }
+            : this(type, name, xCoordinate, yCoordinate, zCoordinate, aAngle, bAngle, cAngle, 0, 0, 0, 0, e1Value, e2Value, e3Value, e4Value, e5Value, e6Value) { }
 
         public KukaLocation(string type, string name, double xCoordinate, double yCoordinate, double zCoordinate
-                , double aAngle, double bAngle, double cAngle, int status, int turn
+                , double aAngle, double bAngle, double cAngle, int statusCf1, int turnCf2
+                , double e1Value, double e2Value, double e3Value, double e4Value, double e5Value, double e6Value)
+            : this(type, name, xCoordinate, yCoordinate, zCoordinate, aAngle, bAngle, cAngle, statusCf1, turnCf2, 0, 0, e1Value, e2Value, e3Value, e4Value, e5Value, e6Value) { }
+
+        public KukaLocation(string type, string name, double xCoordinate, double yCoordinate, double zCoordinate
+                , double aAngle, double bAngle, double cAngle, int statusCf1, int turnCf4, int kukaCf6, int kukaCfx
                 , double e1Value, double e2Value, double e3Value, double e4Value, double e5Value, double e6Value)
         {
             if (name != null || type != null || name != "" || type != "")
@@ -175,8 +192,29 @@ namespace RoboticHelpTool
                     AAngle = aAngle;
                     BAngle = bAngle;
                     CAngle = cAngle;
-                    Status = status;
-                    Turn = turn;
+                    StatusCf1 = statusCf1;
+                    TurnCf4 = turnCf4;
+                    E1Value = e1Value;
+                    E2Value = e2Value;
+                    E3Value = e3Value;
+                    E4Value = e4Value;
+                    E5Value = e5Value;
+                    E6Value = e6Value;
+                }
+                if (type == "robtarget" || type != "")
+                {
+                    Name = name;
+                    Type = type;
+                    XCoordinate = xCoordinate;
+                    YCoordinate = yCoordinate;
+                    ZCoordinate = zCoordinate;
+                    AAngle = aAngle;
+                    BAngle = bAngle;
+                    CAngle = cAngle;
+                    StatusCf1 = statusCf1;
+                    TurnCf4 = turnCf4;
+                    Cf6 = kukaCf6;
+                    Cfx = kukaCfx;
                     E1Value = e1Value;
                     E2Value = e2Value;
                     E3Value = e3Value;
@@ -280,6 +318,10 @@ namespace RoboticHelpTool
                     - feld23 * Math.Cos(Math.Atan2(feld21, feld11))
                     , feld22 * Math.Cos(Math.Atan2(feld21, feld11))
                     - feld12 * Math.Sin(Math.Atan2(feld21, feld11))));
+            StatusCf1 = abbLocation.Cf1Value;
+            TurnCf4 = abbLocation.Cf4Value;
+            Cf6 = abbLocation.Cf6Value;
+            Cfx = abbLocation.CfXValue;
             E1Value = abbLocation.E1Value;
             E2Value = abbLocation.E2Value;
             E3Value = abbLocation.E3Value;
@@ -306,8 +348,8 @@ namespace RoboticHelpTool
                 , matrixLocation.Feld22 * Math.Cos(Math.Atan2(matrixLocation.Feld21, matrixLocation.Feld11))
                 - matrixLocation.Feld12 * Math.Sin(Math.Atan2(matrixLocation.Feld21, matrixLocation.Feld11))
                 ));
-            Status = matrixLocation.Status;
-            Turn = matrixLocation.Turn;
+            StatusCf1 = matrixLocation.Status;
+            TurnCf4 = matrixLocation.Turn;
             E1Value = matrixLocation.E1Value;
             E2Value = matrixLocation.E2Value;
             E3Value = matrixLocation.E3Value;
@@ -1259,7 +1301,7 @@ namespace RoboticHelpTool
                         , n.ZCoordinate.ToString("0.#########").Replace(',', '.')
                         , n.AAngle.ToString("0.#########").Replace(',', '.'), n.BAngle.ToString("0.#########").Replace(',', '.')
                         , n.CAngle.ToString("0.#########").Replace(',', '.')
-                        , n.Status, n.Turn
+                        , n.StatusCf1, n.TurnCf4
                         , n.E1Value.ToString("0.#########").Replace(',', '.'), n.E2Value.ToString("0.#########").Replace(',', '.')
                         , n.E3Value.ToString("0.#########").Replace(',', '.')
                         , n.E4Value.ToString("0.#########").Replace(',', '.'), n.E5Value.ToString("0.#########").Replace(',', '.')

@@ -297,8 +297,8 @@ namespace RoboticHelpTool
             Feld42 = 0;
             Feld43 = 0;
             Feld44 = 1;
-            Status = kukaLocation.Status;
-            Turn = kukaLocation.Turn;
+            Status = kukaLocation.StatusCf1;
+            Turn = kukaLocation.TurnCf4;
             E1Value = kukaLocation.E1Value;
             E2Value = kukaLocation.E2Value;
             E3Value = kukaLocation.E3Value;
