@@ -359,9 +359,17 @@ namespace RoboticHelpTool
 
             //Umwandeln von Location Objekten zu
             //String Objekten die vom Roboter gelesen werden können
-            ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuell);
+            if (KukaLocation.KukaLocationsAktuell.Any() && !ABBLocation.ABBLocationsAktuell.Any())
+            {
+                ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuell);
+            }
+            else
+            {
+                ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuell);
+            }
 
-			//Testsyntax für bestFit Test
+
+            //Testsyntax für bestFit Test
             //Operation.bestFit(KukaLocation.KukaLocationsAktuell);
 
             //löschen der letzten Datei
@@ -378,6 +386,27 @@ namespace RoboticHelpTool
             //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
             Process.Start("tmpOutputABB.mod");
 
+        }
+
+        public void Button_Umrechnen(object sender, RoutedEventArgs e)
+        {
+
+            if (KukaLocation.KukaLocationsAktuell.Any() && !ABBLocation.ABBLocationsAktuell.Any())
+            {
+                foreach (var loc in KukaLocation.KukaLocationsAktuell)
+                {
+                    ABBLocation.ABBLocationsAktuell.Add(new ABBLocation(loc));
+                }
+                KukaLocation.KukaLocationsAktuell.Clear();
+            }
+            else
+            {
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+                ABBLocation.ABBLocationsAktuell.Clear();
+            }
         }
 
         public void Button_Bereinigen(object sender, RoutedEventArgs e)

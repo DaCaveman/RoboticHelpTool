@@ -18,6 +18,9 @@ namespace RoboticHelpTool
         public static List<KukaLocation> KukaLocationsAktuell = new List<KukaLocation>();
         public static List<KukaLocation> KukaLocationsAktuellShift = new List<KukaLocation>();
         public static List<KukaLocation> KukaLocationsAktuellMirror = new List<KukaLocation>();
+        public static List<KukaLocation> ABBLocationsAktuell = new List<KukaLocation>();
+        public static List<KukaLocation> ABBLocationsAktuellShift = new List<KukaLocation>();
+        public static List<KukaLocation> ABBLocationsAktuellMirror = new List<KukaLocation>();
         public static List<KukaLocation> KukaLocationsAktuellMulti = new List<KukaLocation>();
         public static List<MatrixLocation> MatrixLocationsAktuell = new List<MatrixLocation>();
         public static List<String> LocationsAktuellString = new List<String>();

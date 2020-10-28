@@ -328,6 +328,10 @@ namespace RoboticHelpTool
                 Q3Value = (feld23 + feld32) / S;
                 Q4Value = 0.25 * S;
             }
+            Cf1Value = kukaLocation.StatusCf1;
+            Cf4Value = kukaLocation.TurnCf4;
+            Cf6Value = kukaLocation.Cf6;
+            CfXValue = kukaLocation.Cfx;
             E1Value = kukaLocation.E1Value;
             E2Value = kukaLocation.E2Value;
             E3Value = kukaLocation.E3Value;
@@ -556,8 +560,24 @@ namespace RoboticHelpTool
                         , n.E6Value.ToString("0.#########").Replace(',', '.')).Replace("9000000000", "9E+09"));
             }
         }
-
-
-
+        public static void ABBListeToFile(List<ABBLocation> abbLocation)
+        {
+            LocationsAktuellString.Clear();
+            foreach (var n in abbLocation)
+            {
+                LocationsAktuellString.Add(String.Format(new NumberFormatInfo() { NumberDecimalSeparator = "." }
+                , "{0} {1}:=[[{2},{3},{4}],[{5},{6},{7},{8}],[{9},{10},{11},{12}],[{13},{14},{15},{16},{17},{18}]];"
+                        , n.Type, n.Name
+                        , n.XCoordinate.ToString("0.#########").Replace(',', '.'), n.YCoordinate.ToString("0.#########").Replace(',', '.')
+                        , n.ZCoordinate.ToString("0.#########").Replace(',', '.')
+                        , n.Q1Value.ToString("0.#########").Replace(',', '.'), n.Q2Value.ToString("0.#########").Replace(',', '.')
+                        , n.Q3Value.ToString("0.#########").Replace(',', '.'), n.Q4Value.ToString("0.#########").Replace(',', '.')
+                        , n.Cf1Value, n.Cf4Value, n.Cf6Value, n.CfXValue
+                        , n.E1Value.ToString("0.#########").Replace(',', '.'), n.E2Value.ToString("0.#########").Replace(',', '.')
+                        , n.E3Value.ToString("0.#########").Replace(',', '.')
+                        , n.E4Value.ToString("0.#########").Replace(',', '.'), n.E5Value.ToString("0.#########").Replace(',', '.')
+                        , n.E6Value.ToString("0.#########").Replace(',', '.')).Replace("9000000000", "9E+09"));
+            }
+        }
     }
 }
