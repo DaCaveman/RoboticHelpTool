@@ -14,7 +14,8 @@
                  Text="Ort der DAT-Datei (Drag'n Drop ist möglich)" VerticalAlignment="Top"/>
         <Button Style="{StaticResource DATeinlesen_Button}" HorizontalAlignment="Left" Margin="572,114,0,0" VerticalAlignment="Top" Width="140" Click="Button_Einlesen"/>
         <Button Style="{StaticResource Ausgeben_Button}" HorizontalAlignment="Left" Margin="80,114,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Button_Ausgeben"/>
-        <Button Style="{StaticResource Ausgeben_Button}" HorizontalAlignment="Left" Margin="230,114,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Button_Umrechnen"/>
+        <Button x:Name="Quaternien" Style="{StaticResource Quaternien_Button}" HorizontalAlignment="Left" Margin="230,114,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Euler_Umrechnen" Visibility="Hidden"/>
+        <Button x:Name="Euler" Style="{StaticResource Euler_Button}" HorizontalAlignment="Left" Margin="230,114,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Quaternien_Umrechnen" Visibility="Hidden"/>
         <Button Style="{StaticResource RelBase_Button}" HorizontalAlignment="Left" Margin="80,190,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="XYZShift_Click"/>
         <Button Style="{StaticResource RelTool_Button}" HorizontalAlignment="Left" Margin="80,219,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="RelTool_Click"/>
         <Button Style="{StaticResource Mirror_Button}" HorizontalAlignment="Left" Margin="80,248,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Mirror_Click"/>

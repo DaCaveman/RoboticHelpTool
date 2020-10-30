@@ -111,6 +111,8 @@ namespace RoboticHelpTool
             KukaLocation.SrcExistingVariables.Clear();
 
             ABBLocation.LocationSplit();
+            Euler.Visibility = Visibility.Visible;
+
             InfoBox finish = new InfoBox();
             finish.Owner = Application.Current.MainWindow;
             finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -356,21 +358,32 @@ namespace RoboticHelpTool
 
         public void Button_Ausgeben(object sender, RoutedEventArgs e)
         {
+            Double[,] _tcpResult;
 
             //Umwandeln von Location Objekten zu
             //String Objekten die vom Roboter gelesen werden können
             if (KukaLocation.KukaLocationsAktuell.Any() && !ABBLocation.ABBLocationsAktuell.Any())
             {
                 ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuell);
+                
+                //Testsyntax für bestFit Test
+                _tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+
             }
             else
             {
                 ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuell);
+
+                //Testsyntax für bestFit Test
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+                _tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+                KukaLocation.KukaLocationsAktuell.Clear();
+
             }
 
-
-            //Testsyntax für bestFit Test
-            //Operation.bestFit(KukaLocation.KukaLocationsAktuell);
 
             //löschen der letzten Datei
             File.Delete("tmpOutputABB.mod");
@@ -388,7 +401,7 @@ namespace RoboticHelpTool
 
         }
 
-        public void Button_Umrechnen(object sender, RoutedEventArgs e)
+        public void Quaternien_Umrechnen(object sender, RoutedEventArgs e)
         {
 
             if (KukaLocation.KukaLocationsAktuell.Any() && !ABBLocation.ABBLocationsAktuell.Any())
@@ -398,14 +411,25 @@ namespace RoboticHelpTool
                     ABBLocation.ABBLocationsAktuell.Add(new ABBLocation(loc));
                 }
                 KukaLocation.KukaLocationsAktuell.Clear();
+                Quaternien.Visibility = Visibility.Visible;
+                Euler.Visibility = Visibility.Hidden;
+
             }
-            else
+        }
+
+        public void Euler_Umrechnen(object sender, RoutedEventArgs e)
+        {
+
+            if (!KukaLocation.KukaLocationsAktuell.Any() && ABBLocation.ABBLocationsAktuell.Any())
             {
                 foreach (var loc in ABBLocation.ABBLocationsAktuell)
                 {
                     KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
                 }
                 ABBLocation.ABBLocationsAktuell.Clear();
+                Euler.Visibility = Visibility.Visible;
+                Quaternien.Visibility = Visibility.Hidden;
+
             }
         }
 
@@ -523,13 +547,22 @@ namespace RoboticHelpTool
         //Event Methode für den XYZShift Button
         public void XYZShiftButton(object sender, EventArgs e)
         {
+            Boolean ABB = false;
 
             //leeren der Zwischenspeicher KukaLocation Liste
             KukaLocation.KukaLocationsAktuellShift.Clear();
 
             //Merker für den OK-Button des XYZShift Fensters zurücksetzen
             XYZShift.XYZOK = false;
+            if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+            {
+                ABB = true;
 
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+            }
             //Zwischenspeichern der KukaLocation Liste
             foreach (var item in KukaLocation.KukaLocationsAktuell)
                 //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
@@ -537,27 +570,42 @@ namespace RoboticHelpTool
 
             //Umwandeln von Location Objekten zu
             //String Objekten die vom Roboter gelesen werden können
-            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellShift);
+            if (ABB == true)
+            {
+                foreach (var loc in KukaLocation.KukaLocationsAktuellShift)
+                {
+                    ABBLocation.ABBLocationsAktuellShift.Add(new ABBLocation(loc));
+                }
+                ABB = false;
+                KukaLocation.KukaLocationsAktuell.Clear();
+                ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellShift);
+            }
+            else
+            {
+                ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellShift);
+            }
 
             //löschen der letzten Datei
-            File.Delete("tmpOutputKukaShift.src");
+            File.Delete("tmpOutputABBShift.mod");
 
             //Initialisieren der neuen Datei
-            using (var file = new StreamWriter("tmpOutputKukaShift.src"))
+            using (var file = new StreamWriter("tmpOutputABBShift.mod"))
             {
                 //Schreiben in die Datei
                 //je Zeile ein String Objekt der Liste
-                KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
             }
 
             //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-            Process.Start("tmpOutputKukaShift.src");
+            Process.Start("tmpOutputABBShift.mod");
 
         }
 
         //Methode für den XYZShift Button
         public void XYZShift_Click(object sender, RoutedEventArgs e)
         {
+            Boolean ABB = false;
+
             //Initialisieren des XYZShift Fensters
             XYZShift xyzShift = new XYZShift();
             xyzShift.XYZShiftButtonClicked += XYZShiftButton;
@@ -580,11 +628,19 @@ namespace RoboticHelpTool
             {
 
                 //leeren der Zwischenspeicher KukaLocation Liste
-                KukaLocation.KukaLocationsAktuellShift.Clear();
+                ABBLocation.ABBLocationsAktuellShift.Clear();
 
                 //Merker für den OK-Button des XYZShift Fensters zurücksetzen
                 XYZShift.XYZOK = false;
+                if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+                {
+                    ABB = true;
 
+                    foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                    {
+                        KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                    }
+                }
                 //Zwischenspeichern der KukaLocation Liste
                 foreach (var item in KukaLocation.KukaLocationsAktuell)
                     //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
@@ -592,58 +648,121 @@ namespace RoboticHelpTool
 
                 //Umwandeln von Location Objekten zu
                 //String Objekten die vom Roboter gelesen werden können
-                KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellShift);
+                if (ABB == true)
+                {
+                    foreach (var loc in KukaLocation.KukaLocationsAktuellShift)
+                    {
+                        ABBLocation.ABBLocationsAktuellShift.Add(new ABBLocation(loc));
+                    }
+                    ABB = false;
+                    KukaLocation.KukaLocationsAktuell.Clear();
+                    ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellShift);
+                }
+                else
+                {
+                    ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellShift);
+                }
 
                 //löschen der letzten Datei
-                File.Delete("tmpOutputKukaShift.src");
+                File.Delete("tmpOutputABBShift.mod");
 
                 //Initialisieren der neuen Datei
-                using (var file = new StreamWriter("tmpOutputKukaShift.src"))
+                using (var file = new StreamWriter("tmpOutputABBShift.mod"))
                 {
                     //Schreiben in die Datei
                     //je Zeile ein String Objekt der Liste
-                    KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                    ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
                 }
 
                 //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-                Process.Start("tmpOutputKukaShift.src");
+                Process.Start("tmpOutputABBShift.mod");
 
             }
         }
         public static void Mirror()
         {
+            Boolean ABB = false;
+
             KukaLocation kukaLocation;
-            foreach (var l in KukaLocation.KukaLocationsAktuell)
+
+            if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
             {
-                kukaLocation = new KukaLocation(Operation.MirrorLocation(l));
+                ABB = true;
+
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+            }
+
+            foreach (var loc in KukaLocation.KukaLocationsAktuell)
+            {
+                kukaLocation = new KukaLocation(Operation.MirrorLocation(loc));
                 KukaLocation.KukaLocationsAktuellMirror.Add(kukaLocation);
             }
+
+            if (ABB == true)
+            {
+                foreach (var loc in KukaLocation.KukaLocationsAktuellMirror)
+                {
+                    ABBLocation.ABBLocationsAktuellMirror.Add(new ABBLocation(loc));
+                }
+                ABB = false;
+                KukaLocation.KukaLocationsAktuell.Clear();
+            }
+
 
         }
 
         public void Mirror_Click(object sender, RoutedEventArgs e)
         {
+            Boolean ABB = false;
+
+            if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+            {
+                ABB = true;
+
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+            }
+
             //Zwischenspeichern der KukaLocation Liste
             foreach (var item in KukaLocation.KukaLocationsAktuell)
                 //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
                 KukaLocation.KukaLocationsAktuellMirror.Add(Operation.MirrorLocation(KukaLocation.MirrorOverX, item));
+
             //Umwandeln von Location Objekten zu
             //String Objekten die vom Roboter gelesen werden können
-            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMirror);
+            if (ABB == true)
+            {
+                foreach (var loc in KukaLocation.KukaLocationsAktuellMirror)
+                {
+                    ABBLocation.ABBLocationsAktuellMirror.Add(new ABBLocation(loc));
+                }
+                ABB = false;
+                KukaLocation.KukaLocationsAktuell.Clear();
+                ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellMirror);
+            }
+            else
+            {
+                ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellMirror);
+            }
 
             //löschen der letzten Datei
-            File.Delete("tmpOutputKukaMirror.src");
+            File.Delete("tmpOutputABBMirror.mod");
 
             //Initialisieren der neuen Datei
-            using (var file = new StreamWriter("tmpOutputKukaMirror.src"))
+            using (var file = new StreamWriter("tmpOutputABBMirror.mod"))
             {
                 //Schreiben in die Datei
                 //je Zeile ein String Objekt der Liste
-                KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
             }
 
             //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-            Process.Start("tmpOutputKukaMirror.src");
+            Process.Start("tmpOutputABBMirror.mod");
 
 
         }
@@ -652,6 +771,7 @@ namespace RoboticHelpTool
         {
             KukaLocation kukaLocation;
             KukaLocation kukalocationInv;
+            Boolean ABB = false;
 
             //leeren der Zwischenspeicher KukaLocation Liste
             KukaLocation.KukaLocationsAktuellMulti.Clear();
@@ -659,7 +779,16 @@ namespace RoboticHelpTool
             //Merker für den OK-Button des XYZShift Fensters zurücksetzen
             Hand2nd.MulitOK = false;
 
-            //Zwischenspeichern der KukaLocation Liste
+            if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+            {
+                ABB = true;
+
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+            }
+
             //Zwischenspeichern der KukaLocation Liste
             foreach (var item in KukaLocation.KukaLocationsAktuell)
                 //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
@@ -669,28 +798,43 @@ namespace RoboticHelpTool
                 //KukaLocation.KukaLocationsAktuellMulti.Add(kukaLocation = new KukaLocation(Operation.MultiLocation(Hand2nd.kukaLocation, item)));
                 KukaLocation.KukaLocationsAktuellMulti.Add(kukaLocation = new KukaLocation(Operation.MultiLocation(item, Hand2nd.kukaLocation)));
 
-                //Umwandeln von Location Objekten zu
-                //String Objekten die vom Roboter gelesen werden können
-                KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+            //Umwandeln von Location Objekten zu
+            //String Objekten die vom Roboter gelesen werden können
+            if (ABB == true)
+            {
+                foreach (var loc in KukaLocation.KukaLocationsAktuellMulti)
+                {
+                    ABBLocation.ABBLocationsAktuellMulti.Add(new ABBLocation(loc));
+                }
+                ABB = false;
+                KukaLocation.KukaLocationsAktuell.Clear();
+                ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellMulti);
+            }
+            else
+            {
+                ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+            }
 
             //löschen der letzten Datei
-            File.Delete("tmpOutputKukaMulti.src");
+            File.Delete("tmpOutputABBMulti.mod");
 
             //Initialisieren der neuen Datei
-            using (var file = new StreamWriter("tmpOutputKukaMulti.src"))
+            using (var file = new StreamWriter("tmpOutputABBMulti.mod"))
             {
                 //Schreiben in die Datei
                 //je Zeile ein String Objekt der Liste
-                KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
             }
 
             //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-            Process.Start("tmpOutputKukaMulti.src");
+            Process.Start("tmpOutputABBMulti.mod");
 
         }
 
         public void Multi_Click(object sender, RoutedEventArgs e)
         {
+            Boolean ABB = false;
+
             KukaLocation kukaLocation;
             //Initialisieren des XYZShift Fensters
             Hand2nd hand2nd = new Hand2nd();
@@ -719,6 +863,16 @@ namespace RoboticHelpTool
                 //Merker für den OK-Button des XYZShift Fensters zurücksetzen
                 Hand2nd.MulitOK = false;
 
+                if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+                {
+                    ABB = true;
+
+                    foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                    {
+                        KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                    }
+                }
+
                 //Zwischenspeichern der KukaLocation Liste
                 foreach (var item in KukaLocation.KukaLocationsAktuell)
                     //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
@@ -726,21 +880,34 @@ namespace RoboticHelpTool
 
                 //Umwandeln von Location Objekten zu
                 //String Objekten die vom Roboter gelesen werden können
-                KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+                if (ABB == true)
+                {
+                    foreach (var loc in KukaLocation.KukaLocationsAktuellMulti)
+                    {
+                        ABBLocation.ABBLocationsAktuellMulti.Add(new ABBLocation(loc));
+                    }
+                    ABB = false;
+                    KukaLocation.KukaLocationsAktuell.Clear();
+                    ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellMulti);
+                }
+                else
+                {
+                    ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+                }
 
                 //löschen der letzten Datei
-                File.Delete("tmpOutputKukaMulti.src");
+                File.Delete("tmpOutputABBMulti.mod");
 
                 //Initialisieren der neuen Datei
-                using (var file = new StreamWriter("tmpOutputKukaMulti.src"))
+                using (var file = new StreamWriter("tmpOutputABBMulti.mod"))
                 {
                     //Schreiben in die Datei
                     //je Zeile ein String Objekt der Liste
-                    KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                    ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
                 }
 
                 //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-                Process.Start("tmpOutputKukaMulti.src");
+                Process.Start("tmpOutputABBMulti.mod");
 
             }
         }
@@ -748,12 +915,23 @@ namespace RoboticHelpTool
         public void RelToolButton(object sender, EventArgs e)
         {
             KukaLocation kukaLocation;
+            Boolean ABB = false;
 
             //leeren der Zwischenspeicher KukaLocation Liste
             KukaLocation.KukaLocationsAktuellMulti.Clear();
 
             //Merker für den OK-Button des XYZShift Fensters zurücksetzen
             XYZShift.XYZOK = false;
+
+            if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+            {
+                ABB = true;
+
+                foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                {
+                    KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                }
+            }
 
             //Zwischenspeichern der KukaLocation Liste
             foreach (var item in KukaLocation.KukaLocationsAktuell)
@@ -763,26 +941,40 @@ namespace RoboticHelpTool
 
             //Umwandeln von Location Objekten zu
             //String Objekten die vom Roboter gelesen werden können
-            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+            if (ABB == true)
+            {
+                foreach (var loc in KukaLocation.KukaLocationsAktuellMulti)
+                {
+                    ABBLocation.ABBLocationsAktuellMulti.Add(new ABBLocation(loc));
+                }
+                ABB = false;
+                KukaLocation.KukaLocationsAktuell.Clear();
+                ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellMulti);
+            }
+            else
+            {
+                ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+            }
 
             //löschen der letzten Datei
-            File.Delete("tmpOutputKukaMulti.src");
+            File.Delete("tmpOutputABBMulti.mod");
 
             //Initialisieren der neuen Datei
-            using (var file = new StreamWriter("tmpOutputKukaMulti.src"))
+            using (var file = new StreamWriter("tmpOutputABBMulti.mod"))
             {
                 //Schreiben in die Datei
                 //je Zeile ein String Objekt der Liste
-                KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
             }
 
             //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-            Process.Start("tmpOutputKukaMulti.src");
+            Process.Start("tmpOutputABBMulti.mod");
 
         }
 
         public void RelTool_Click(object sender, RoutedEventArgs e)
         {
+            Boolean ABB = false;
 
             //Initialisieren des XYZShift Fensters
             KukaLocation kukaLocation;
@@ -813,28 +1005,51 @@ namespace RoboticHelpTool
                 //Merker für den OK-Button des XYZShift Fensters zurücksetzen
                 XYZShift.XYZOK = false;
 
+                if (ABBLocation.ABBLocationsAktuell.Any() && !KukaLocation.KukaLocationsAktuell.Any())
+                {
+                    ABB = true;
+
+                    foreach (var loc in ABBLocation.ABBLocationsAktuell)
+                    {
+                        KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
+                    }
+                }
+
                 //Zwischenspeichern der KukaLocation Liste
                 foreach (var item in KukaLocation.KukaLocationsAktuell)
                     //Verschieben jedes Listen Elementes mit den X/Y/Y Werten des XYZShift Fensters
                     KukaLocation.KukaLocationsAktuellMulti.Add(kukaLocation = new KukaLocation(Operation.RelToolLocation(XYZShift.matrixLocationRelValue, item)));
 
-                    //Umwandeln von Location Objekten zu
-                    //String Objekten die vom Roboter gelesen werden können
-                    KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+                //Umwandeln von Location Objekten zu
+                //String Objekten die vom Roboter gelesen werden können
+                if (ABB == true)
+                {
+                    foreach (var loc in KukaLocation.KukaLocationsAktuellMulti)
+                    {
+                        ABBLocation.ABBLocationsAktuellMulti.Add(new ABBLocation(loc));
+                    }
+                    ABB = false;
+                    KukaLocation.KukaLocationsAktuell.Clear();
+                    ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuellMulti);
+                }
+                else
+                {
+                    ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuellMulti);
+                }
 
                 //löschen der letzten Datei
-                File.Delete("tmpOutputKukaMulti.src");
+                File.Delete("tmpOutputABBMulti.mod");
 
                 //Initialisieren der neuen Datei
-                using (var file = new StreamWriter("tmpOutputKukaMulti.src"))
+                using (var file = new StreamWriter("tmpOutputABBMulti.mod"))
                 {
                     //Schreiben in die Datei
                     //je Zeile ein String Objekt der Liste
-                    KukaLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
+                    ABBLocation.LocationsAktuellString.ForEach(v => file.WriteLine(v));
                 }
 
                 //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-                Process.Start("tmpOutputKukaMulti.src");
+                Process.Start("tmpOutputABBMulti.mod");
 
             }
         }

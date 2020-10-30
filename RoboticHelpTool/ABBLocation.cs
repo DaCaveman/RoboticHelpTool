@@ -17,6 +17,8 @@ namespace RoboticHelpTool
         //Deklaration der benötigten Listen
         public static List<ABBLocation> ABBLocationsAktuell = new List<ABBLocation>();
         public static List<ABBLocation> ABBLocationsAktuellShift = new List<ABBLocation>();
+        public static List<ABBLocation> ABBLocationsAktuellMirror = new List<ABBLocation>();
+        public static List<ABBLocation> ABBLocationsAktuellMulti = new List<ABBLocation>();
         public static List<MatrixLocation> MatrixLocationsAktuell = new List<MatrixLocation>();
         public static List<String> LocationsAktuellString = new List<String>();
         public static List<String> ABB_Header = new List<String>();
@@ -373,7 +375,7 @@ namespace RoboticHelpTool
                 zeile = datei.ReadLine(); // Zeile lesen
 
                 //finden von Deklarationen von E6POS
-                if (zeile.CaseInsensitiveContains("CONST robtarget") || zeile.CaseInsensitiveContains("VAR robtarget"))
+                if (zeile.CaseInsensitiveContains("CONST robtarget") || zeile.CaseInsensitiveContains("VAR robtarget") || zeile.CaseInsensitiveContains("PERS robtarget") || zeile.CaseInsensitiveContains("VAR robtarget"))
                 {
 
                     felder = zeile.Split(new char[] { '[', ',', ']', '=', ':' }); // Zeile an "Chars" aufbrechen
