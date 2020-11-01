@@ -365,8 +365,20 @@ namespace RoboticHelpTool
             if (KukaLocation.KukaLocationsAktuell.Any() && !ABBLocation.ABBLocationsAktuell.Any())
             {
                 ABBLocation.ABBListeToFile(KukaLocation.KukaLocationsAktuell);
-                
+
+                // caclulation only work first time with euler angles
                 //Testsyntax für bestFit Test
+                //calculation approved with ABB
+                // Points of the Flange have to be a huge globe
+                //LOCAL CONST robtarget p10:=[[-3624.52, 256.75, 1806.17],[0.0342651,-0.0875503,0.978944,-0.181189],[1,-1,0,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //LOCAL CONST robtarget p20:=[[-3747.57,929.65,1085.92],[0.0920973,-0.0548866,0.704425,-0.701634],[1,-1,0,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //LOCAL CONST robtarget p30:=[[-3399.54,-786.73,798.61],[0.0455014,0.0785969,-0.684247,-0.723573],[0,0,-1,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //LOCAL CONST robtarget p40:=[[-4684.31,120.32,1934.63],[0.50557,-0.158753,0.840176,-0.115332],[1,-1,-1,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //! TCP calculated from ABB
+                //!TASK PERS tooldata tG1_EinwTCP:=[TRUE,[[690.459,121.9,867.669],[5.27618E-05,0.00845501,0.006137,0.999945]],[119.3,[-95.3,34.4,337.2],[1,0,0,0],18.186,36.959,22.633]];
+                //! TCP calculated from C#
+                //!TASK PERS tooldata tG1_EinwTCP:=[TRUE,[[690.462,121.901,867.671],[5.27618E-05,0.00845501,0.006137,0.999945]],[119.3,[-95.3,34.4,337.2],[1,0,0,0],18.186,36.959,22.633]];
+
                 _tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
 
             }
@@ -374,7 +386,19 @@ namespace RoboticHelpTool
             {
                 ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuell);
 
+                // caclulation only work first time with euler angles
                 //Testsyntax für bestFit Test
+                //calculation approved with ABB
+                // Points of the Flange have to be a huge globe
+                //LOCAL CONST robtarget p10:=[[-3624.52, 256.75, 1806.17],[0.0342651,-0.0875503,0.978944,-0.181189],[1,-1,0,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //LOCAL CONST robtarget p20:=[[-3747.57,929.65,1085.92],[0.0920973,-0.0548866,0.704425,-0.701634],[1,-1,0,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //LOCAL CONST robtarget p30:=[[-3399.54,-786.73,798.61],[0.0455014,0.0785969,-0.684247,-0.723573],[0,0,-1,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //LOCAL CONST robtarget p40:=[[-4684.31,120.32,1934.63],[0.50557,-0.158753,0.840176,-0.115332],[1,-1,-1,0],[-5554.2,9E+09,9E+09,9E+09,9E+09,9E+09]];
+                //! TCP calculated from ABB
+                //!TASK PERS tooldata tG1_EinwTCP:=[TRUE,[[690.459,121.9,867.669],[5.27618E-05,0.00845501,0.006137,0.999945]],[119.3,[-95.3,34.4,337.2],[1,0,0,0],18.186,36.959,22.633]];
+                //! TCP calculated from C#
+                //!TASK PERS tooldata tG1_EinwTCP:=[TRUE,[[690.462,121.901,867.671],[5.27618E-05,0.00845501,0.006137,0.999945]],[119.3,[-95.3,34.4,337.2],[1,0,0,0],18.186,36.959,22.633]];
+
                 foreach (var loc in ABBLocation.ABBLocationsAktuell)
                 {
                     KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));

@@ -815,6 +815,9 @@ namespace RoboticHelpTool
             maxFailure = failureValues.Select(x => Math.Abs(x)).Max();
             avgFailure = failureValues.Select(x => Math.Abs(x)).Average();
             minFailureIndex = failureValues.IndexOf(minFailure);
+            if (minFailureIndex < 0)
+                minFailureIndex = failureValues.IndexOf(-minFailure);
+
 
             result[5, 0] = minFailure;
             result[6, 0] = maxFailure;
