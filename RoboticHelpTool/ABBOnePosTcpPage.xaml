@@ -1,0 +1,48 @@
+﻿<Page x:Class="RoboticHelpTool.ABBOnePosTcpPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RoboticHelpTool"
+      mc:Ignorable="d" 
+      d:DesignHeight="370" d:DesignWidth="560"
+      Title="ABBOnePosTcpPage">
+    <Page.Resources>
+        <local:FontSizeConverterTextBox x:Key="fontSizeConTextBox" />
+    </Page.Resources>
+
+    <Grid>
+        <TextBox x:Name="X_Value_Base" HorizontalAlignment="Left" Height="23" Margin="34,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="X" Text="X" />
+        <TextBox x:Name="Y_Value_Base" HorizontalAlignment="Left" Height="23" Margin="173,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="Y" Text="Y" />
+        <TextBox x:Name="Z_Value_Base" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="319,50,0,0" Tag="Z" Text="Z" />
+        <TextBox x:Name="Q1_Value_ABB_Base" Margin="35,78,431,269" TextWrapping="Wrap" Tag="Q1" Text="Q1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q2_Value_ABB_Base" Margin="138,78,328,269" TextWrapping="Wrap" Tag="Q2" Text="Q2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q3_Value_ABB_Base" Margin="242,78,224,269" TextWrapping="Wrap" Tag="Q3" Text="Q3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q4_Value_ABB_Base" Margin="345,78,121,269" TextWrapping="Wrap" Tag="Q4" Text="Q4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <Label Content="Eingabe der externen Base mit Quaternien (ABB)" HorizontalAlignment="Left" Margin="34,19,0,0" VerticalAlignment="Top" Width="347"/>
+
+        <TextBox x:Name="X_Value_Flansch" HorizontalAlignment="Left" Height="23" Margin="34,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="X" Text="X" />
+        <TextBox x:Name="Y_Value_Flansch" HorizontalAlignment="Left" Height="23" Margin="173,159,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="Y" Text="Y" />
+        <TextBox x:Name="Z_Value_Flansch" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="319,159,0,0" Tag="Z" Text="Z" />
+        <TextBox x:Name="Q1_Value_ABB_Flansch" Margin="35,187,431,160" TextWrapping="Wrap" Tag="Q1" Text="Q1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q2_Value_ABB_Flansch" Margin="138,187,328,160" TextWrapping="Wrap" Tag="Q2" Text="Q2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q3_Value_ABB_Flansch" Margin="242,187,224,160" TextWrapping="Wrap" Tag="Q3" Text="Q3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q4_Value_ABB_Flansch" Margin="345,187,121,160" TextWrapping="Wrap" Tag="Q4" Text="Q4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <Label Content="Eingabe der Flansch Position in Base0 mit Quaternien (ABB)" HorizontalAlignment="Left" Margin="34,128,0,0" VerticalAlignment="Top" Width="347"/>
+
+        <TextBox x:Name="X_Value_TCP" HorizontalAlignment="Left" Height="22" Margin="34,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="X" Text="X" IsReadOnly="True"/>
+        <TextBox x:Name="Y_Value_TCP" HorizontalAlignment="Left" Height="22" Margin="173,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Tag="Y" Text="Y" IsReadOnly="True"/>
+        <TextBox x:Name="Z_Value_TCP" HorizontalAlignment="Left" Height="22" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="319,276,0,0" Tag="Z" Text="Z" IsReadOnly="True"/>
+        <TextBox x:Name="Q1_Value_ABB_TCP" Margin="35,303,431,44" TextWrapping="Wrap" Tag="Q1" Text="Q1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q2_Value_ABB_TCP" Margin="138,303,328,44" TextWrapping="Wrap" Tag="Q2" Text="Q2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q3_Value_ABB_TCP" Margin="242,303,224,44" TextWrapping="Wrap" Tag="Q3" Text="Q3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <TextBox x:Name="Q4_Value_ABB_TCP" Margin="345,303,121,44" TextWrapping="Wrap" Tag="Q4" Text="Q4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="Auto" Height="Auto"/>
+        <Label Content="Ergebnis der TCP Berechung mit Quaternien (ABB)" HorizontalAlignment="Left" Margin="34,244,0,0" VerticalAlignment="Top" Width="347"/>
+
+        <Button Style="{StaticResource Einlesen_Button}" Width="60" Height="120" Margin="490,240,10,10" Click="Button_Einlesen">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+    </Grid>
+</Page>

@@ -50,6 +50,10 @@ namespace RoboticHelpTool
         public void ABB_TCP_Click(object sender, RoutedEventArgs e)
         {
             //Initialisieren des Hand2nd Fensters
+            ABBOnePosTcpPage abb = new ABBOnePosTcpPage();
+            MainData.Navigate(abb);
+
+            MainData.NavigationService.RemoveBackEntry();
 
         }
 

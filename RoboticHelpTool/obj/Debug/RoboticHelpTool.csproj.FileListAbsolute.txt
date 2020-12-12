@@ -117,3 +117,5 @@ d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.exe
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.pdb
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.g.cs
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.baml
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBOnePosTcpPage.g.cs
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBOnePosTcpPage.baml

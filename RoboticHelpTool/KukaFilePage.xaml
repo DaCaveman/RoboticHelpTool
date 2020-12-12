@@ -21,6 +21,6 @@
         <Button Style="{StaticResource Reinigen_Button}" HorizontalAlignment="Left" Margin="572,190,0,0" VerticalAlignment="Top" Width="140" Click="Button_Bereinigen" Height="25"/>
         <Button Style="{StaticResource Sortieren_Button}" HorizontalAlignment="Left" Margin="572,220,0,0" VerticalAlignment="Top" Width="140" Click="Button_Sortieren" Height="24"/>
         <Button Style="{StaticResource DATeinlesen_Button}" HorizontalAlignment="Left" Margin="572,320,0,0" VerticalAlignment="Top" Width="140" Click="Button_Einlesen_Bereinigen_Sortieren" 
-                Visibility="Visible" />
+                Visibility="Hidden" />
     </Grid>
 </Page>

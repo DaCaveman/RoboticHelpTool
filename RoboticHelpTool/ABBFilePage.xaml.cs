@@ -27,7 +27,6 @@ namespace RoboticHelpTool
     {
         //--------------Klasseneigenschaften-----------------
         public static string DateiOrtDat;
-        public static string DateiOrtSrc;
         public static AuswahlListe LocationListe = new AuswahlListe();
         public static string[] DatenOrte;
         public static bool SpezialAblauf;
@@ -78,13 +77,11 @@ namespace RoboticHelpTool
         public void DateiZiel_TextChanged(object sender, TextChangedEventArgs e)
         {
             DateiOrtDat = DateiZiel.Text;
-            DateiOrtSrc = DateiOrtDat.Replace(".dat", ".src");
         }
 
         public void Button_Einlesen(object sender, RoutedEventArgs e)
         {
             DateiOrtDat = DateiZiel.Text;
-            DateiOrtSrc = DateiOrtDat.Replace(".dat",".src");
 
             KukaLocation.KukaLocationsAktuell.Clear();
             KukaLocation.KukaLocationsAktuell.Clear();
@@ -205,7 +202,6 @@ namespace RoboticHelpTool
                     KukaLocation.SrcExistingVariables.Clear();
 
                     DateiOrtDat = files;
-                    DateiOrtSrc = DateiOrtDat.Replace(".dat", ".src");
 
                     KukaLocation.LocationSplit();
                     InfoBox finish1 = new InfoBox();
@@ -320,19 +316,6 @@ namespace RoboticHelpTool
                             finish3.Manual_Button.Visibility = Visibility.Hidden;
                             finish3.ShowDialog();
                         }
-
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        InfoBox error = new InfoBox();
-                        error.Owner = Application.Current.MainWindow;
-                        error.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                        error.InfoBox_Text.Content = "Datei wurde nicht gefunden: " + DateiOrtSrc + "!\n" +
-                                                     "Die .dat konnte nicht bereinigt werden!";
-                        error.OK_Button.Visibility = Visibility.Visible;
-                        error.Abbruch_Button.Visibility = Visibility.Hidden;
-                        error.Manual_Button.Visibility = Visibility.Hidden;
-                        error.ShowDialog();
 
                     }
                     catch (NullReferenceException)
@@ -465,7 +448,7 @@ namespace RoboticHelpTool
             reinigen.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             reinigen.InfoBox_Text.Content = "Soll die .dat Datei Bereinigt werden?\n" +
                                             "Es werden alle Deklaration entfernt, die nicht in \n" +
-                                            "der .src benutzt werden\n" +
+                                            "der .mod benutzt werden\n" +
                                             "Die Original-Datei wird im Ursprungsordner mit" + 
                                             ".bak gebackupt!\n" +
                                             "Diese Funktion bitte mit Vorsicht benutzen!";
@@ -481,44 +464,47 @@ namespace RoboticHelpTool
                 if (reinigen.OK)
                 {
 
-                    KukaLocation.Bereinigen_Read();
-                    string DateiOrtBak = DateiOrtDat.Replace(".dat", ".bak");
-                    KukaLocation.MissingNames = KukaLocation.DatInNames.Except(KukaLocation.ExistingNames).ToList();
-                    foreach (var line in KukaLocation.SrcInLines)
+                    ABBLocation.Bereinigen_Read();
+                    string DateiOrtBak = DateiOrtDat.Replace(".mod", ".bak");
+                    ABBLocation.MissingNames = ABBLocation.DatInNames.Except(ABBLocation.ExistingNames).ToList();
+                    foreach (var line in ABBLocation.SrcInLines)
                     {
                         string[] split;
-                        split = line.Split(' ', ',', '=');
-                        foreach (var name in KukaLocation.DatInNames)
+                        split = line.Split(' ', ',', '=', ':');
+                        foreach (var name in ABBLocation.DatInNames)
                         {
                             if (Regex.IsMatch(line, "\\b"+ name + "\\b", RegexOptions.IgnoreCase))
                             //if (line.CaseInsensitiveContains(name))
                             {
-                                KukaLocation.ExistingNames.Add(name);
+                                if (!line.CaseInsensitiveContains(" CONST ") && !line.CaseInsensitiveContains(" PERS ") && !line.CaseInsensitiveContains(" VAR "))
+                                {
+                                    ABBLocation.ExistingNames.Add(name);
+                                }
                             }
 
                         }
                     }
-                    KukaLocation.MissingNames = KukaLocation.DatInNames.Except(KukaLocation.ExistingNames).ToList();
+                    ABBLocation.MissingNames = ABBLocation.DatInNames.Except(ABBLocation.ExistingNames).ToList();
 
-                    File.WriteAllLines(DateiOrtBak, KukaLocation.DatInLines);
+                    File.WriteAllLines(DateiOrtBak, ABBLocation.DatInLines);
 
-                    for (int i = KukaLocation.DatInLines.Count - 1; i >= 0; i--)
+                    for (int i = ABBLocation.DatInLines.Count - 1; i >= 0; i--)
                     {
-                        foreach (var nv in KukaLocation.MissingNames)
+                        foreach (var nv in ABBLocation.MissingNames)
                         {
-                            if (Regex.IsMatch(KukaLocation.DatInLines[i], "\\b" + nv + "\\b", RegexOptions.IgnoreCase))
-                            //    if (KukaLocation.DatInLines[i].Contains(nv))
+                            if (Regex.IsMatch(ABBLocation.DatInLines[i], "\\b" + nv + "\\b", RegexOptions.IgnoreCase))
+                            //    if (ABBLocation.DatInLines[i].Contains(nv))
                             {
-                                if (!Misc.CaseInsensitiveContains(KukaLocation.DatInLines[i], "SUCCESS"))
-                                    if (!Misc.CaseInsensitiveContains(KukaLocation.DatInLines[i], "global"))
-                                        KukaLocation.DatInLines.RemoveAt(i);
+                                if (!Misc.CaseInsensitiveContains(ABBLocation.DatInLines[i], "SUCCESS"))
+                                    if (!Misc.CaseInsensitiveContains(ABBLocation.DatInLines[i], "global"))
+                                        ABBLocation.DatInLines.RemoveAt(i);
                             }
                         }
                     }
 
-                    if (KukaLocation.DatInLines.Any())
+                    if (ABBLocation.DatInLines.Any())
                     {
-                        File.WriteAllLines(DateiOrtDat, KukaLocation.DatInLines);
+                        File.WriteAllLines(DateiOrtDat, ABBLocation.DatInLines);
 
                         InfoBox finish = new InfoBox();
                         finish.Owner = Application.Current.MainWindow;
@@ -541,19 +527,6 @@ namespace RoboticHelpTool
                     finish.Manual_Button.Visibility = Visibility.Hidden;
                     finish.Show();
                 }
-
-            }
-            catch (FileNotFoundException)
-            {
-                InfoBox error = new InfoBox();
-                error.Owner = Application.Current.MainWindow;
-                error.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                error.InfoBox_Text.Content = "Datei wurde nicht gefunden: " + DateiOrtSrc + "!\n" +
-                                             "Die .dat konnte nicht bereinigt werden!";
-                error.OK_Button.Visibility = Visibility.Visible;
-                error.Abbruch_Button.Visibility = Visibility.Hidden;
-                error.Manual_Button.Visibility = Visibility.Hidden;
-                error.Show();
 
             }
             catch(NullReferenceException)

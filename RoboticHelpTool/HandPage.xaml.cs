@@ -1080,13 +1080,14 @@ namespace RoboticHelpTool
         public void OnePosTCP_Click(object sender, RoutedEventArgs e)
         {
             //Initialisieren des Hand2nd Fensters
-            RobDecision robdecision = new RobDecision();
+            RobDecision Robdecision = new RobDecision();
 
-            robdecision.Owner = Application.Current.MainWindow;
-            robdecision.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            robdecision.Kuka_OnePosTCP.Visibility = Visibility.Visible;
-            robdecision.Kuka_Base.Visibility = Visibility.Hidden;
-            robdecision.Show();
+            Robdecision.Owner = Application.Current.MainWindow;
+            Robdecision.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            Robdecision.Kuka_OnePosTCP.Visibility = Visibility.Visible;
+            Robdecision.ABB_OnePosTCP.Visibility = Visibility.Visible;
+            Robdecision.Kuka_Base.Visibility = Visibility.Hidden;
+            Robdecision.Show();
 
         }
 
@@ -1098,6 +1099,7 @@ namespace RoboticHelpTool
             Robdecision.Owner = Application.Current.MainWindow;
             Robdecision.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             Robdecision.Kuka_OnePosTCP.Visibility = Visibility.Hidden;
+            Robdecision.ABB_OnePosTCP.Visibility = Visibility.Hidden;
             Robdecision.Kuka_Base.Visibility = Visibility.Visible;
             Robdecision.Show();
 

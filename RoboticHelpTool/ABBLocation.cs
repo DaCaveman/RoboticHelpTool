@@ -23,6 +23,11 @@ namespace RoboticHelpTool
         public static List<String> LocationsAktuellString = new List<String>();
         public static List<String> ABB_Header = new List<String>();
         public static List<String> ABB_Sorted = new List<String>();
+        public static List<String> SrcInLines = new List<String>();
+        public static List<String> DatInNames = new List<String>();
+        public static List<String> DatInLines = new List<String>();
+        public static List<String> ExistingNames = new List<String>();
+        public static List<String> MissingNames = new List<String>();
 
         //--------------Eigenschaftsmethoden---------------
 
@@ -325,7 +330,7 @@ namespace RoboticHelpTool
             else
             {
                 S = Math.Sqrt(1.0 + feld33 - feld11 - feld22) * 2; // S=4*qz
-                Q1Value = (feld21 - feld21) / S;
+                Q1Value = (feld21 - feld12) / S;
                 Q2Value = (feld13 + feld31) / S;
                 Q3Value = (feld23 + feld32) / S;
                 Q4Value = 0.25 * S;
@@ -530,7 +535,9 @@ namespace RoboticHelpTool
                         {
                             E6Value = 0;
                         }
-                        abbTemp = new ABBLocation(name[4] + " " + name[5] + " " + name[6], name[7], XCoordinate, YCoordinate, ZCoordinate
+                        //abbTemp = new ABBLocation(name[4] + " " + name[5] + " " + name[6], name[7], XCoordinate, YCoordinate, ZCoordinate
+                        //        , Q1, Q2, Q3, Q4, cf1, cf2, cf3, cf4, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value);
+                        abbTemp = new ABBLocation(name[0] + " " + name[1] + " " + name[2], name[3], XCoordinate, YCoordinate, ZCoordinate
                                 , Q1, Q2, Q3, Q4, cf1, cf2, cf3, cf4, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value);
                         KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(abbTemp));
                     }
@@ -581,5 +588,89 @@ namespace RoboticHelpTool
                         , n.E6Value.ToString("0.#########").Replace(',', '.')).Replace("9000000000", "9E+09"));
             }
         }
+        //Methode zum aufsplitten der Deklarationen von E6POS "Strings" in abfragbare und
+        // bearbeitbare Werte z.B. Dezimal usw.
+        public static void Bereinigen_Read()
+        {
+
+            try
+            {
+                SrcInLines.Clear();
+                DatInNames.Clear();
+                DatInLines.Clear();
+                StreamReader src;
+                StreamReader dat;
+                dat = File.OpenText(ABBFilePage.DateiOrtDat);
+                src = File.OpenText(ABBFilePage.DateiOrtDat);
+                SrcInLines.Clear();
+                string zeile = "";
+                string[] felder;
+                string[] name;
+
+                while (src.Peek() != -1) //Solange bis Dateiende erreicht
+                {
+                    zeile = src.ReadLine(); // Zeile lesen
+
+                    //E6POS Deklarationen in Location Objecte umwandeln unt in einer Liste speichern
+                    SrcInLines.Add(zeile);
+                }
+
+                while (dat.Peek() != -1) //Solange bis Dateiende erreicht
+                {
+                    zeile = dat.ReadLine(); // Zeile lesen
+
+                    DatInLines.Add(zeile);
+                    //finden von Deklarationen von E6POS
+                    if (zeile.CaseInsensitiveContains(" CONST ") || zeile.CaseInsensitiveContains(" PERS ") || zeile.CaseInsensitiveContains(" VAR "))
+                    {
+
+                        felder = zeile.Split(new char[] { '{', ',', '}', '=', ':', ';' }); // Zeile an "Chars" aufbrechen
+
+                        //Ausplitten für den Namen der Location
+                        name = felder[0].Split(new char[] { ' ' });
+
+                        if (Misc.CaseInsensitiveContains(zeile, "global"))
+                            DatInNames.Add(name[7]);
+                        else
+                            //E6POS Deklarationen in Location Objecte umwandeln und in einer Liste speichern
+                            DatInNames.Add(name[7]);
+                    }
+                }
+
+                src.Close();
+                dat.Close();
+            }
+            catch (FileNotFoundException)
+            {
+                InfoBox error = new InfoBox();
+                error.Owner = Application.Current.MainWindow;
+                error.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                error.InfoBox_Text.Content = "Datei wurde nicht gefunden: " + KukaFilePage.DateiOrtSrc + "!\n" +
+                                          "Die .dat konnte nicht bereinigt werden!";
+                error.OK_Button.Visibility = Visibility.Visible;
+                error.Abbruch_Button.Visibility = Visibility.Hidden;
+                error.Manual_Button.Visibility = Visibility.Hidden;
+                error.Show();
+
+                return;
+
+            }
+            catch (ArgumentNullException)
+            {
+                InfoBox error = new InfoBox();
+                error.Owner = Application.Current.MainWindow;
+                error.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                error.InfoBox_Text.Content = "Datei wurde nicht gefunden: " + KukaFilePage.DateiOrtSrc + "!\n" +
+                                          "Die .dat konnte nicht bereinigt werden!";
+                error.OK_Button.Visibility = Visibility.Visible;
+                error.Abbruch_Button.Visibility = Visibility.Hidden;
+                error.Manual_Button.Visibility = Visibility.Hidden;
+                error.Show();
+
+                return;
+
+            }
+        }
+
     }
 }

@@ -20,7 +20,7 @@
         <Button Style="{StaticResource RelTool_Button}" HorizontalAlignment="Left" Margin="80,219,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="RelTool_Click"/>
         <Button Style="{StaticResource Mirror_Button}" HorizontalAlignment="Left" Margin="80,248,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Mirror_Click"/>
         <Button Style="{StaticResource Transformation_Button}" HorizontalAlignment="Left" Margin="80,324,0,0" VerticalAlignment="Top" Width="120" Height="24" Click="Multi_Click"/>
-        <Button Style="{StaticResource Reinigen_Button}" HorizontalAlignment="Left" Margin="572,190,0,0" VerticalAlignment="Top" Width="140" Click="Button_Bereinigen" Height="25" Visibility="Hidden"/>
+        <Button Style="{StaticResource Reinigen_Button}" HorizontalAlignment="Left" Margin="572,190,0,0" VerticalAlignment="Top" Width="140" Click="Button_Bereinigen" Height="25" Visibility="Visible"/>
         <Button Style="{StaticResource Sortieren_Button}" HorizontalAlignment="Left" Margin="572,220,0,0" VerticalAlignment="Top" Width="140" Click="Button_Sortieren" Height="24" Visibility="Hidden"/>
         <Button Style="{StaticResource DATeinlesen_Button}" HorizontalAlignment="Left" Margin="572,320,0,0" VerticalAlignment="Top" Width="140" Click="Button_Einlesen_Bereinigen_Sortieren" 
                 Visibility="Hidden" />
