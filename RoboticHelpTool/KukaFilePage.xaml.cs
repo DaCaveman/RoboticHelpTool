@@ -362,7 +362,7 @@ namespace RoboticHelpTool
             KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
 
 			//Testsyntax für bestFit Test
-            Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+            //Operation.bestFit(KukaLocation.KukaLocationsAktuell);
 
             //löschen der letzten Datei
             File.Delete("tmpOutputKuka.src");

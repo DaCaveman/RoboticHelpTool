@@ -415,7 +415,7 @@ namespace RoboticHelpTool
 
                         try
                         {
-                            string[] cf1Dec = Regex.Split(felder[15], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                         //Nur Zahlen
+                            string[] cf1Dec = Regex.Split(felder[15], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                         //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             cf1 = Convert.ToInt16(cf1Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });            //Sting in Double konvertieren
@@ -426,7 +426,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] cf2Dec = Regex.Split(felder[16], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                           //Nur Zahlen
+                            string[] cf2Dec = Regex.Split(felder[16], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                           //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             cf2 = Convert.ToInt16(cf2Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });                //Sting in Double konvertieren
@@ -437,7 +437,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] cf3Dec = Regex.Split(felder[17], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                         //Nur Zahlen
+                            string[] cf3Dec = Regex.Split(felder[17], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                         //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             cf3 = Convert.ToInt16(cf3Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });            //Sting in Double konvertieren
@@ -448,7 +448,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] cf4Dec = Regex.Split(felder[18], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                           //Nur Zahlen
+                            string[] cf4Dec = Regex.Split(felder[18], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                           //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             cf4 = Convert.ToInt16(cf4Dec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });                //Sting in Double konvertieren
@@ -459,7 +459,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] E1ValueDec = Regex.Split(felder[21], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                 //Nur Zahlen
+                            string[] E1ValueDec = Regex.Split(felder[21], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                 //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             //if (E1ValueDec[0].CaseInsensitiveContains("9E+09"))
@@ -472,7 +472,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] E2ValueDec = Regex.Split(felder[22], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                            string[] E2ValueDec = Regex.Split(felder[22], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             //if (E2ValueDec[0].Equals("9E+09"))
@@ -485,7 +485,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] E3ValueDec = Regex.Split(felder[23], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                            string[] E3ValueDec = Regex.Split(felder[23], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             //if (E3ValueDec[0].Equals("9E+09"))
@@ -498,7 +498,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] E4ValueDec = Regex.Split(felder[24], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                            string[] E4ValueDec = Regex.Split(felder[24], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             //if (E4ValueDec[0].Equals("9E+09"))
@@ -511,7 +511,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] E5ValueDec = Regex.Split(felder[25], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                            string[] E5ValueDec = Regex.Split(felder[25], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             //if (E5ValueDec[0].Equals("9E+09"))
@@ -524,7 +524,7 @@ namespace RoboticHelpTool
                         }
                         try
                         {
-                            string[] E6ValueDec = Regex.Split(felder[26], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                            string[] E6ValueDec = Regex.Split(felder[26], @"[^-?\d*\.{0,1}\d+$(?:Ee)]")                                  //Nur Zahlen
                                 .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
                                 && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
                             //if (E6ValueDec[0].Equals("9E+09"))
@@ -537,14 +537,14 @@ namespace RoboticHelpTool
                         }
                         //abbTemp = new ABBLocation(name[4] + " " + name[5] + " " + name[6], name[7], XCoordinate, YCoordinate, ZCoordinate
                         //        , Q1, Q2, Q3, Q4, cf1, cf2, cf3, cf4, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value);
-                        abbTemp = new ABBLocation(name[0] + " " + name[1] + " " + name[2], name[3], XCoordinate, YCoordinate, ZCoordinate
+                        abbTemp = new ABBLocation(name[4] + " " + name[5] + " " + name[6], name[7], XCoordinate, YCoordinate, ZCoordinate
                                 , Q1, Q2, Q3, Q4, cf1, cf2, cf3, cf4, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value);
                         KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(abbTemp));
                     }
                 }
             }
 
-            Console.WriteLine("Datei wurde eingelesen von: {0}", KukaFilePage.DateiOrtDat);
+            Console.WriteLine("Datei wurde eingelesen von: {0}", ABBFilePage.DateiOrtDat);
             datei.Close();
         }
 

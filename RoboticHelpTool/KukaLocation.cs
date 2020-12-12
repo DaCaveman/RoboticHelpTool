@@ -236,16 +236,16 @@ namespace RoboticHelpTool
             double l;
             double m;
             double n;
-            double StatusCf1 = 0;
-            double TurnCf4 = 0;
-            double Cf6 = 0;
-            double Cfx = 0;
-            double E1Value = 0;
-            double E2Value = 0;
-            double E3Value = 0;
-            double E4Value = 0;
-            double E5Value = 0;
-            double E6Value = 0;
+            //double StatusCf1 = 0;
+            //double TurnCf4 = 0;
+            //double Cf6 = 0;
+            //double Cfx = 0;
+            //double E1Value = 0;
+            //double E2Value = 0;
+            //double E3Value = 0;
+            //double E4Value = 0;
+            //double E5Value = 0;
+            //double E6Value = 0;
 
             Name = abbLocation.Name;
             Type = abbLocation.Type;

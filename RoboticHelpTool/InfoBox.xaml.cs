@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace RoboticHelpTool
 {
@@ -52,7 +53,24 @@ namespace RoboticHelpTool
         }
         private void Button_Manual(object sender, RoutedEventArgs e)
         {
-            //Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
+            String Manual = AppDomain.CurrentDomain.BaseDirectory + "RoboticHelpToolManual.pdf";
+            if (File.Exists(Manual))
+            {
+                Process.Start(Manual);
+            }
+            else
+            {
+                try
+                {
+                    File.WriteAllBytes(Manual, Properties.Resources.RoboticHelpToolManual);
+                }
+                catch 
+                {
+                    //ex As Exception
+                    //MsgBox("Helpfile konnte nicht erzeugt werden. Melde dich bitte bei mir" & vbNewLine & "Vielleicht liegt dieses Programm auch in einem Ordner, für den du keine Schreibrechte hast.")
+                }
+            Process.Start(Manual);
+            }
             Process.Start("RoboticHelpToolManual.pdf");
 
         }

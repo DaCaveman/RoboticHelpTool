@@ -362,7 +362,7 @@ namespace RoboticHelpTool
                 //! TCP calculated from C#
                 //!TASK PERS tooldata tG1_EinwTCP:=[TRUE,[[690.462,121.901,867.671],[5.27618E-05,0.00845501,0.006137,0.999945]],[119.3,[-95.3,34.4,337.2],[1,0,0,0],18.186,36.959,22.633]];
 
-                _tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+                //_tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
 
             }
             else
@@ -386,7 +386,7 @@ namespace RoboticHelpTool
                 {
                     KukaLocation.KukaLocationsAktuell.Add(new KukaLocation(loc));
                 }
-                _tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
+                //_tcpResult = Operation.bestFit(KukaLocation.KukaLocationsAktuell);
                 KukaLocation.KukaLocationsAktuell.Clear();
 
             }

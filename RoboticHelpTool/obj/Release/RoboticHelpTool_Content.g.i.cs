@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("tsr.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("sora-meliae-matrilineare-apps-preferences-color.ico")]
 
 
