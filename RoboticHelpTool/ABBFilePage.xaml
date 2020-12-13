@@ -11,7 +11,7 @@
     <Grid>
         <ProgressBar x:Name="Prb" Height="20" Minimum="0" Maximum="100" Margin="572,277,80,183" Visibility="Hidden" Background="#FF0A0A0A" OpacityMask="Red"/>
         <TextBox x:Name="DateiZiel" AllowDrop="True" PreviewDragOver="DateiZiel_PreviewDragOver" PreviewDrop="DateiZiel_PreviewDrop" Height="23" Margin="80,57,80,0" TextWrapping="Wrap" 
-                 Text="Ort der DAT-Datei (Drag'n Drop ist möglich)" VerticalAlignment="Top"/>
+                 Text="Ort der mod-Datei (Drag'n Drop ist möglich)" VerticalAlignment="Top"/>
         <Button Style="{StaticResource DATeinlesen_Button}" HorizontalAlignment="Left" Margin="572,114,0,0" VerticalAlignment="Top" Width="140" Click="Button_Einlesen"/>
         <Button Style="{StaticResource Ausgeben_Button}" HorizontalAlignment="Left" Margin="80,114,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Button_Ausgeben"/>
         <Button x:Name="Quaternien" Style="{StaticResource Quaternien_Button}" HorizontalAlignment="Left" Margin="230,114,0,0" VerticalAlignment="Top" Width="120" Height="25" Click="Euler_Umrechnen" Visibility="Hidden"/>

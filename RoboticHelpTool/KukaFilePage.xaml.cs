@@ -82,7 +82,7 @@ namespace RoboticHelpTool
 
         private void Button_Einlesen(object sender, RoutedEventArgs e)
         {
-            DateiOrtDat = DateiZiel.Text;
+            DateiOrtDat = DateiZiel.Text.Replace(".src", ".dat");
             DateiOrtSrc = DateiOrtDat.Replace(".dat",".src");
             AuswahlListe LocationListe = new AuswahlListe();
 
@@ -110,35 +110,48 @@ namespace RoboticHelpTool
             KukaLocation.MissingNames.Clear();
             KukaLocation.SrcExistingVariables.Clear();
 
-            KukaLocation.LocationSplit_File();
-
-            //Auswahl Test
-            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
-            foreach (var x in KukaLocation.LocationsAktuellString)
+            try
             {
-                CheckBox newCheckbox = new CheckBox();
-                newCheckbox.Content = x;
-                LocationListe.WorkList.Items.Add(newCheckbox);
+                KukaLocation.LocationSplit_File();
+
+                //Auswahl Test
+                KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
+                foreach (var x in KukaLocation.LocationsAktuellString)
+                {
+                    CheckBox newCheckbox = new CheckBox();
+                    newCheckbox.Content = x;
+                    LocationListe.WorkList.Items.Add(newCheckbox);
+                }
+                LocationListe.ShowDialog();
+                KukaLocation.LocationsAuswahlString.Clear();
+                foreach (CheckBox y in LocationListe.WorkList.Items)
+                {
+                    if (y.IsChecked == true)
+                        KukaLocation.LocationsAuswahlString.Add(y.Content.ToString());
+                }
+                // Auswahl in aktuelle LocationList einfügen
+                KukaLocation.LocationSplit_List(KukaLocation.LocationsAuswahlString);
+
+                InfoBox finish = new InfoBox();
+                finish.Owner = Application.Current.MainWindow;
+                finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                finish.InfoBox_Text.Content = "Daten sind eingelesen \n" + DateiOrtDat;
+                finish.OK_Button.Visibility = Visibility.Visible;
+                finish.Abbruch_Button.Visibility = Visibility.Hidden;
+                finish.Manual_Button.Visibility = Visibility.Hidden;
+                finish.Show();
             }
-            LocationListe.ShowDialog();
-            KukaLocation.LocationsAuswahlString.Clear();
-            foreach (CheckBox y in LocationListe.WorkList.Items)
+            catch(FileNotFoundException)
             {
-                if (y.IsChecked == true)
-                    KukaLocation.LocationsAuswahlString.Add(y.Content.ToString());
+                InfoBox finish = new InfoBox();
+                finish.Owner = Application.Current.MainWindow;
+                finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                finish.InfoBox_Text.Content = "Keine Datei gefunden!";
+                finish.OK_Button.Visibility = Visibility.Visible;
+                finish.Abbruch_Button.Visibility = Visibility.Hidden;
+                finish.Manual_Button.Visibility = Visibility.Hidden;
+                finish.Show();
             }
-            // Auswahl in aktuelle LocationList einfügen
-            KukaLocation.LocationSplit_List(KukaLocation.LocationsAuswahlString);
-
-            InfoBox finish = new InfoBox();
-            finish.Owner = Application.Current.MainWindow;
-            finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            finish.InfoBox_Text.Content = "Datei ist eingelesen \n" + DateiOrtDat;
-            finish.OK_Button.Visibility = Visibility.Visible;
-            finish.Abbruch_Button.Visibility = Visibility.Hidden;
-            finish.Manual_Button.Visibility = Visibility.Hidden;
-            finish.Show();
-
         }
         //Action EmptyDelegate = delegate () { }; // Zuweisung einer anonymen Methode ohne ausführbaren Code
 

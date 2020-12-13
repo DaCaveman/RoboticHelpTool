@@ -120,42 +120,55 @@ namespace RoboticHelpTool
             ABBLocation.ExistingNames.Clear();
             ABBLocation.MissingNames.Clear();
 
-            ABBLocation.LocationSplit_File();
-            Quaternien.Visibility = Visibility.Visible;
-
-            //Auswahl Test
-            ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuell);
-            foreach (var x in ABBLocation.LocationsAktuellString)
+            try
             {
-                CheckBox newCheckbox = new CheckBox();
-                newCheckbox.Content = x;
-                LocationListe.WorkList.Items.Add(newCheckbox);
+                ABBLocation.LocationSplit_File();
+                Quaternien.Visibility = Visibility.Visible;
+
+                //Auswahl Test
+                ABBLocation.ABBListeToFile(ABBLocation.ABBLocationsAktuell);
+                foreach (var x in ABBLocation.LocationsAktuellString)
+                {
+                    CheckBox newCheckbox = new CheckBox();
+                    newCheckbox.Content = x;
+                    LocationListe.WorkList.Items.Add(newCheckbox);
+                }
+
+                LocationListe.ShowDialog();
+
+                ABBLocation.LocationsAuswahlString.Clear();
+                foreach (CheckBox y in LocationListe.WorkList.Items)
+                {
+                    if (y.IsChecked == true)
+                        ABBLocation.LocationsAuswahlString.Add(y.Content.ToString());
+                }
+                // Auswahl in aktuelle LocationList einfügen
+                ABBLocation.LocationSplit_List(ABBLocation.LocationsAuswahlString);
+
+                InfoBox finish = new InfoBox();
+                finish.Owner = Application.Current.MainWindow;
+                finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                finish.InfoBox_Text.Content = "Daten sind eingelesen \n" + DateiOrtDat;
+                finish.OK_Button.Visibility = Visibility.Visible;
+                finish.Abbruch_Button.Visibility = Visibility.Hidden;
+                finish.Manual_Button.Visibility = Visibility.Hidden;
+                finish.Show();
             }
-
-            LocationListe.ShowDialog();
-
-            ABBLocation.LocationsAuswahlString.Clear();
-            foreach (CheckBox y in LocationListe.WorkList.Items)
+            catch (FileNotFoundException)
             {
-                if (y.IsChecked == true)
-                    ABBLocation.LocationsAuswahlString.Add(y.Content.ToString());
+                InfoBox finish = new InfoBox();
+                finish.Owner = Application.Current.MainWindow;
+                finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                finish.InfoBox_Text.Content = "Keine Datei gefunden!";
+                finish.OK_Button.Visibility = Visibility.Visible;
+                finish.Abbruch_Button.Visibility = Visibility.Hidden;
+                finish.Manual_Button.Visibility = Visibility.Hidden;
+                finish.Show();
             }
-            // Auswahl in aktuelle LocationList einfügen
-            ABBLocation.LocationSplit_List(ABBLocation.LocationsAuswahlString);
+}
+//Action EmptyDelegate = delegate () { }; // Zuweisung einer anonymen Methode ohne ausführbaren Code
 
-            InfoBox finish = new InfoBox();
-            finish.Owner = Application.Current.MainWindow;
-            finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            finish.InfoBox_Text.Content = "Datei ist eingelesen \n" + DateiOrtDat;
-            finish.OK_Button.Visibility = Visibility.Visible;
-            finish.Abbruch_Button.Visibility = Visibility.Hidden;
-            finish.Manual_Button.Visibility = Visibility.Hidden;
-            finish.Show();
-
-        }
-        //Action EmptyDelegate = delegate () { }; // Zuweisung einer anonymen Methode ohne ausführbaren Code
-
-        public void Button_Einlesen_Bereinigen_Sortieren(object sender, RoutedEventArgs e)
+public void Button_Einlesen_Bereinigen_Sortieren(object sender, RoutedEventArgs e)
         {
             SpezialAblauf = true;
             //Prb.Value = 0;
