@@ -5,20 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RoboticHelpTool"
         mc:Ignorable="d"
-        Title="AuswahlListe" ShowInTaskbar="True" Height="420" Width="520" ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FF616161" WindowStyle="None">
+        SizeToContent="Width"
+        MaxWidth="1200"
+        Title="AuswahlListe" ShowInTaskbar="True" Height="420" Width="1000" ResizeMode="CanResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Background="#FFA2A2A2" WindowStyle="None">
     <Grid>
-        <ListBox BorderThickness="0" SelectionMode="Extended" Name="WorkList" HorizontalAlignment="Stretch" Margin="0,26,0,0" VerticalAlignment="Stretch" Background="#FF616161" >
+        <ListBox BorderThickness="0" Name="WorkList" Background="#FFA2A2A2" Margin="0,26,0,0" FontFamily="Calibri" >
             <!--Muss wegen foreach im code behind behandelt werden-->
             <!--<CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" />-->
         </ListBox>
-            <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+        <Border BorderBrush="#FFF3EF1E" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         </Border>
-        <Button Style="{StaticResource X_Button}" Width="20" Height="20" Margin="494,5,5,394" Click="Button_Close">
+        <Button Style="{StaticResource X_Button}" Height="20" Margin="0,6,6,0" Click="Button_Close" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20">
             <Button.Effect>
                 <DropShadowEffect Opacity="0.5" />
             </Button.Effect>
         </Button>
-        <Button Content="Button" Width="20" Height="20" Margin="10,6,490,394" Click="Button_Checkbox"/>
-        <Button Content="Button" Width="20" Height="20" Margin="474,377,26,23" Click="Button_Ausgabe"/>
+        <Button Style="{StaticResource All_Button}" Content="Button" Width="20" Height="20" Margin="10,6,0,0" Click="Button_Checkbox" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" />
+            </Button.Effect>
+        </Button>
+        <Button Style="{StaticResource Accept_Button}" Content="Button" Width="55" Height="20" Margin="0,0,26,23" Click="Button_Ausgabe" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+        <Button.Effect>
+            <DropShadowEffect Opacity="0.5" />
+        </Button.Effect>
+        </Button>
     </Grid>
 </Window>

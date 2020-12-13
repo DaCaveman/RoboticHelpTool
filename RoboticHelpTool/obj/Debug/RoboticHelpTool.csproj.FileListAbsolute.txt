@@ -71,7 +71,6 @@ D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBasePage.baml
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBaseShowPage.g.cs
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\KukaBaseShowPage.baml
 D:\CSharp\Programme\RoboticHelpTool\RoboticHelpTool\obj\Debug\GeneratedInternalTypeHelper.g.cs
-d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpToolManual.pdf
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.exe.config
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.exe.manifest
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.application
@@ -119,3 +118,4 @@ D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.g.cs
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.baml
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBOnePosTcpPage.g.cs
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBOnePosTcpPage.baml
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\Resources\RoboticHelpToolManual.pdf

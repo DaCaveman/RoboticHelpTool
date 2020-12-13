@@ -28,7 +28,6 @@ namespace RoboticHelpTool
         //--------------Klasseneigenschaften-----------------
         public static string DateiOrtDat;
         public static string DateiOrtSrc;
-        public static AuswahlListe LocationListe = new AuswahlListe();
         public static string[] DatenOrte;
         public static bool SpezialAblauf;
 
@@ -85,6 +84,7 @@ namespace RoboticHelpTool
         {
             DateiOrtDat = DateiZiel.Text;
             DateiOrtSrc = DateiOrtDat.Replace(".dat",".src");
+            AuswahlListe LocationListe = new AuswahlListe();
 
             KukaLocation.KukaLocationsAktuell.Clear();
             KukaLocation.KukaLocationsAktuell.Clear();
@@ -110,7 +110,26 @@ namespace RoboticHelpTool
             KukaLocation.MissingNames.Clear();
             KukaLocation.SrcExistingVariables.Clear();
 
-            KukaLocation.LocationSplit();
+            KukaLocation.LocationSplit_File();
+
+            //Auswahl Test
+            KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
+            foreach (var x in KukaLocation.LocationsAktuellString)
+            {
+                CheckBox newCheckbox = new CheckBox();
+                newCheckbox.Content = x;
+                LocationListe.WorkList.Items.Add(newCheckbox);
+            }
+            LocationListe.ShowDialog();
+            KukaLocation.LocationsAuswahlString.Clear();
+            foreach (CheckBox y in LocationListe.WorkList.Items)
+            {
+                if (y.IsChecked == true)
+                    KukaLocation.LocationsAuswahlString.Add(y.Content.ToString());
+            }
+            // Auswahl in aktuelle LocationList einfügen
+            KukaLocation.LocationSplit_List(KukaLocation.LocationsAuswahlString);
+
             InfoBox finish = new InfoBox();
             finish.Owner = Application.Current.MainWindow;
             finish.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -120,36 +139,6 @@ namespace RoboticHelpTool
             finish.Manual_Button.Visibility = Visibility.Hidden;
             finish.Show();
 
-            ////Auswahl Test
-            //KukaLocation.KukaListeToFile(KukaLocation.KukaLocationsAktuell);
-            //foreach (var x in KukaLocation.LocationsAktuellString)
-            //{
-            //    CheckBox newCheckbox = new CheckBox();
-            //    newCheckbox.Content = x;
-            //    LocationListe.WorkList.Items.Add(newCheckbox);
-            //}
-            //LocationListe.ShowDialog();
-            //KukaLocation.LocationsAuswahlString.Clear();
-            //foreach (CheckBox y in LocationListe.WorkList.Items)
-            //{
-            //    if (y.IsChecked == true)
-            //        KukaLocation.LocationsAuswahlString.Add(y.Content.ToString());
-            //}
-            ////löschen der letzten Datei
-            //File.Delete("tmpOutputKuka.src");
-
-            ////Initialisieren der neuen Datei
-            //using (var file = new StreamWriter("tmpOutputKuka.src"))
-            //{
-            //    //Schreiben in die Datei
-            //    //je Zeile ein String Objekt der Liste
-            //    KukaLocation.LocationsAuswahlString.ForEach(v => file.WriteLine(v));
-            //}
-
-            //////Öffnen der Datei mit dem festgelegten "StandartProgramm" des Betriebssystemes
-            //Process.Start("tmpOutputKuka.src");
-
-            //// Auswahl Test
         }
         //Action EmptyDelegate = delegate () { }; // Zuweisung einer anonymen Methode ohne ausführbaren Code
 
@@ -205,7 +194,7 @@ namespace RoboticHelpTool
                     DateiOrtDat = files;
                     DateiOrtSrc = DateiOrtDat.Replace(".dat", ".src");
 
-                    KukaLocation.LocationSplit();
+                    KukaLocation.LocationSplit_File();
                     InfoBox finish1 = new InfoBox();
                     finish1.Owner = Application.Current.MainWindow;
                     finish1.WindowStartupLocation = WindowStartupLocation.CenterOwner;

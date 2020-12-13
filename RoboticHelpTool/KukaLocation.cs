@@ -981,7 +981,7 @@ namespace RoboticHelpTool
 
         //Methode zum aufsplitten der Deklarationen von E6POS "Strings" in abfragbare und
         // bearbeitbare Werte z.B. Dezimal usw.
-        public static void LocationSplit()
+        public static void LocationSplit_File()
         {
             StreamReader datei;
             datei = File.OpenText(KukaFilePage.DateiOrtDat);
@@ -1010,6 +1010,7 @@ namespace RoboticHelpTool
                 //finden von Deklarationen von E6POS
                 if (zeile.CaseInsensitiveContains("DECL E6POS") || zeile.CaseInsensitiveContains("DECL FRAME"))
                 {
+                    zeile = zeile.Trim();
 
                     felder = zeile.Split(new char[] { '{', ',', '}', '=' }); // Zeile an "Chars" aufbrechen
 
@@ -1213,6 +1214,236 @@ namespace RoboticHelpTool
 
             Console.WriteLine("Datei wurde eingelesen von: {0}", KukaFilePage.DateiOrtDat);
             datei.Close();
+        }
+
+        public static void LocationSplit_List(List<string> locationStrings)
+        {
+            KukaLocation.KukaLocationsAktuell.Clear();
+            string zeile;
+            string[] felder;
+            string[] name;
+            Double XCoordinate;
+            Double YCoordinate;
+            Double ZCoordinate;
+            Double AAngle;
+            Double BAngle;
+            Double CAngle;
+            int Status;
+            int Turn;
+            Double E1Value;
+            Double E2Value;
+            Double E3Value;
+            Double E4Value;
+            Double E5Value;
+            Double E6Value;
+
+            foreach (string zeileUnstripped in locationStrings)  //Solange bis Listende erreicht
+            {
+
+                //finden von Deklarationen von E6POS
+                if (zeileUnstripped.CaseInsensitiveContains("DECL E6POS") || zeileUnstripped.CaseInsensitiveContains("DECL FRAME"))
+                {
+                    zeile = zeileUnstripped.Trim();
+
+                    felder = zeile.Split(new char[] { '{', ',', '}', '=' }); // Zeile an "Chars" aufbrechen
+
+                    //Ausplitten für den Namen der Location
+                    name = felder[0].Split(new char[] { ' ' });
+
+                    // Aufgesplitte Zeile Zuweisen und in Dezimal umwandeln
+
+                    string[] XCoordinateDec = Regex.Split(felder[2], @"[^-?\d*\.{0,1}\d+$]")                                    //Nur Zahlen
+                        .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                    XCoordinate = Convert.ToDouble(XCoordinateDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });//Sting in Double konvertieren
+                    string[] YCoordinateDec = Regex.Split(felder[3], @"[^-?\d*\.{0,1}\d+$]")                                    //Nur Zahlen
+                        .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                    YCoordinate = Convert.ToDouble(YCoordinateDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });//Sting in Double konvertieren
+                    string[] ZCoordinateDec = Regex.Split(felder[4], @"[^-?\d*\.{0,1}\d+$]")                                    //Nur Zahlen
+                        .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                    ZCoordinate = Convert.ToDouble(ZCoordinateDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });//Sting in Double konvertieren
+                    string[] AAngleDec = Regex.Split(felder[5], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                        .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                    AAngle = Convert.ToDouble(AAngleDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+                    string[] BAngleDec = Regex.Split(felder[6], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                        .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                    BAngle = Convert.ToDouble(BAngleDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+                    string[] CAngleDec = Regex.Split(felder[7], @"[^-?\d*\.{0,1}\d+$]")                                         //Nur Zahlen
+                        .Where(c => c != "." && c.Trim() != "").ToArray();                                                      //Leerzeichen entfernen
+                    CAngle = Convert.ToDouble(CAngleDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });          //Sting in Double konvertieren
+
+                    // IF Anweisung, wenn in felder[8] nicht der Status definiert ist.
+                    if (felder[8].CaseInsensitiveContains("s") && !zeile.CaseInsensitiveContains("DECL FRAME"))
+                    {
+                        try
+                        {
+                            string[] StatusDec = Regex.Split(felder[8], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                         //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            Status = Convert.ToInt16(StatusDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });            //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            Status = 0;
+                        }
+                        try
+                        {
+                            string[] TurnDec = Regex.Split(felder[9], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                           //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            Turn = Convert.ToInt16(TurnDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });                //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            Turn = 0;
+                        }
+                        try
+                        {
+                            string[] E1ValueDec = Regex.Split(felder[10], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                 //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E1Value = Convert.ToDouble(E1ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E1Value = 0;
+                        }
+                        try
+                        {
+                            string[] E2ValueDec = Regex.Split(felder[11], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E2Value = Convert.ToDouble(E2ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E2Value = 0;
+                        }
+                        try
+                        {
+                            string[] E3ValueDec = Regex.Split(felder[12], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E3Value = Convert.ToDouble(E3ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E3Value = 0;
+                        }
+                        try
+                        {
+                            string[] E4ValueDec = Regex.Split(felder[13], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E4Value = Convert.ToDouble(E4ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E4Value = 0;
+                        }
+                        try
+                        {
+                            string[] E5ValueDec = Regex.Split(felder[14], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E5Value = Convert.ToDouble(E5ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E5Value = 0;
+                        }
+                        try
+                        {
+                            string[] E6ValueDec = Regex.Split(felder[15], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E6Value = Convert.ToDouble(E6ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E6Value = 0;
+                        }
+                    }
+                    else
+                    {
+                        Status = 99;
+                        Turn = 99;
+                        try
+                        {
+                            string[] E1ValueDec = Regex.Split(felder[8], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                 //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E1Value = Convert.ToDouble(E1ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E1Value = 0;
+                        }
+                        try
+                        {
+                            string[] E2ValueDec = Regex.Split(felder[9], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E2Value = Convert.ToDouble(E2ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E2Value = 0;
+                        }
+                        try
+                        {
+                            string[] E3ValueDec = Regex.Split(felder[10], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E3Value = Convert.ToDouble(E3ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E3Value = 0;
+                        }
+                        try
+                        {
+                            string[] E4ValueDec = Regex.Split(felder[11], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E4Value = Convert.ToDouble(E4ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E4Value = 0;
+                        }
+                        try
+                        {
+                            string[] E5ValueDec = Regex.Split(felder[12], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E5Value = Convert.ToDouble(E5ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E5Value = 0;
+                        }
+                        try
+                        {
+                            string[] E6ValueDec = Regex.Split(felder[13], @"[^-?\d*\.{0,1}\d+$(?:E)]")                                  //Nur Zahlen
+                                .Where(c => c != "." && c != "E1" && c != "E2" && c != "E3" && c != "E4" && c != "E5"                  //Leerzeichen entfernen
+                                && c != "E6" && c.Trim() != "").ToArray();                                                             //Leerzeichen entfernen
+                            E6Value = Convert.ToDouble(E6ValueDec[0], new NumberFormatInfo() { NumberDecimalSeparator = "." });        //Sting in Double konvertieren
+                        }
+                        catch
+                        {
+                            E6Value = 0;
+                        }
+                    }
+
+                    if (Misc.CaseInsensitiveContains(zeile, "global"))
+                        KukaLocationsAktuell.Add(new KukaLocation(name[2], name[3], XCoordinate, YCoordinate, ZCoordinate
+                                , AAngle, BAngle, CAngle, Status, Turn, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value));
+                    else
+                        //E6POS Deklarationen in Location Objecte umwandeln unt in einer Liste speichern
+                        KukaLocationsAktuell.Add(new KukaLocation(name[1], name[2], XCoordinate, YCoordinate, ZCoordinate
+                                    , AAngle, BAngle, CAngle, Status, Turn, E1Value, E2Value, E3Value, E4Value, E5Value, E6Value));
+                }
+            }
         }
 
         //Methode zum aufsplitten der Deklarationen von E6POS "Strings" in abfragbare und

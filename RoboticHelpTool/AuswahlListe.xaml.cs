@@ -34,6 +34,10 @@ namespace RoboticHelpTool
         }
         private void Button_Close(object sender, RoutedEventArgs e)
         {
+            foreach (CheckBox y in this.WorkList.Items)
+            {
+                y.IsChecked = false;
+            }
             this.Close();
         }
         private void Button_Checkbox(object sender, RoutedEventArgs e)
