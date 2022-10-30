@@ -76,7 +76,6 @@ d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.exe.manifest
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.application
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.exe
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\RoboticHelpTool.pdb
-d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.csprojAssemblyReference.cache
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\AuswahlListe.g.cs
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\EmptyData.g.cs
 d:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\Hand2nd.g.cs
@@ -119,3 +118,5 @@ D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBFilePage.baml
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBOnePosTcpPage.g.cs
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\ABBOnePosTcpPage.baml
 D:\CSharp\RoboticHelpTool\RoboticHelpTool\bin\Debug\Resources\RoboticHelpToolManual.pdf
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.csproj.AssemblyReference.cache
+D:\CSharp\RoboticHelpTool\RoboticHelpTool\obj\Debug\RoboticHelpTool.csproj.CoreCompileInputs.cache

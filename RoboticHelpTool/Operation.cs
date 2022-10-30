@@ -831,6 +831,9 @@ namespace RoboticHelpTool
             result[8, 1] = KukaOnePosTcpPage.TCP.YCoordinate;
             result[8, 2] = KukaOnePosTcpPage.TCP.ZCoordinate;
 
+            //No writing to File!
+            //Calculated TCP only in variable result!
+            
             return result;
         }
 
