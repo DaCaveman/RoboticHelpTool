@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboticHelpTool.exe" size="2764800">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RoboticHelpTool.exe" size="2768896">
       <assemblyIdentity name="RoboticHelpTool" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>YPSi52P76ZegLeYq3iJV5Dac3m2WgR/985HBHL9hH8s=</dsig:DigestValue>
+        <dsig:DigestValue>Xjocgisbd7oY4833aEuc3wXSrY667eu92fKWv11NHU8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
