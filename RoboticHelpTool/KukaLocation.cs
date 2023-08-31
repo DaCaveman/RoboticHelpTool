@@ -29,6 +29,7 @@ namespace RoboticHelpTool
         public static List<String> SortLocationsMisc = new List<String>();
         public static List<String> SortLocationsFromSrc = new List<String>();
         public static List<String> SortLocationsE6POS = new List<String>();
+        public static List<String> SortLocationsE6AXIS = new List<String>();
         public static List<String> SortLocationsFRAME = new List<String>();
         public static List<String> SortLocationsVW = new List<String>();
         public static List<String> SortLocationsFDAT = new List<String>();
@@ -378,6 +379,7 @@ namespace RoboticHelpTool
             KUKA_Sorted.Clear();
             LocationsAktuellString.Clear();
             SortLocationsE6POS.Clear();
+            SortLocationsE6AXIS.Clear();
             SortLocationsMisc.Clear();
             SortLocationsVW.Clear();
             SortLocationsFDAT.Clear();
@@ -398,36 +400,44 @@ namespace RoboticHelpTool
                     zeile = dateiReader.ReadLine(); // Zeile lesen
                     LocationsAktuellString.Add(zeile);
                     //Wenn in der Zeile keine Deklaration einer Variablen stattfindet
-                    if (!zeile.CaseInsensitiveContains("DECL "))
-                        KUKA_Header.Add(zeile);
+                    if (!zeile.CaseInsensitiveContains("DECL ") || zeile.CaseInsensitiveContains(" SUCCESS"))
+                        if (!zeile.CaseInsensitiveContains("E6POS") && !zeile.CaseInsensitiveContains("VW") &&
+                            !zeile.CaseInsensitiveContains("FDAT") && !zeile.CaseInsensitiveContains("PDAT") &&
+                            !zeile.CaseInsensitiveContains("LDAT") && !zeile.CaseInsensitiveContains("E6AXIS") ||
+                            zeile.CaseInsensitiveContains("DEFDAT"))
+                            KUKA_Header.Add(zeile);
 
                     //Wenn in der Zeile eine Deklaration einer Variablen stattfindet
                     if (zeile.Contains("DECL "))
                     {
                         //sonstige Deklarationen
-                        if (!zeile.CaseInsensitiveContains("E6POS") && !zeile.CaseInsensitiveContains("VW") &&
-                            !zeile.CaseInsensitiveContains("FDAT") && !zeile.CaseInsensitiveContains("PDAT") &&
-                            !zeile.CaseInsensitiveContains("LDAT"))
+                        if (!zeile.CaseInsensitiveContains(" E6POS ") && !zeile.CaseInsensitiveContains("VW") &&
+                            !zeile.CaseInsensitiveContains(" FDAT ") && !zeile.CaseInsensitiveContains(" PDAT ") &&
+                            !zeile.CaseInsensitiveContains(" LDAT "))
                             SortLocationsMisc.Add(zeile);
 
                         //E6POS Deklarationen
-                        if (zeile.CaseInsensitiveContains("E6POS"))
+                        if (zeile.CaseInsensitiveContains(" E6POS "))
                             SortLocationsE6POS.Add(zeile);
 
+                        //E6POS Deklarationen
+                        if (zeile.CaseInsensitiveContains(" E6AXIS "))
+                            SortLocationsE6AXIS.Add(zeile);
+
                         //VW Deklartionen
-                        if (zeile.CaseInsensitiveContains("VW"))
+                        if (zeile.CaseInsensitiveContains(" VW "))
                             SortLocationsVW.Add(zeile);
 
                         //FDAT Deklarationen
-                        if (zeile.CaseInsensitiveContains("FDAT"))
+                        if (zeile.CaseInsensitiveContains(" FDAT "))
                             SortLocationsFDAT.Add(zeile);
 
                         //PDAT oder LDAT Deklarationen
-                        if (zeile.CaseInsensitiveContains("PDAT") || zeile.CaseInsensitiveContains("LDAT"))
+                        if (zeile.CaseInsensitiveContains(" PDAT ") || zeile.CaseInsensitiveContains(" LDAT "))
                             SortLocationsPLDAT.Add(zeile);
 
                         //ArcDat Deklarationen
-                        if (zeile.CaseInsensitiveContains("stArcDat_T"))
+                        if (zeile.CaseInsensitiveContains(" stArcDat_T "))
                             SortLocationsArcDat.Add(zeile);
 
                     }
@@ -458,6 +468,17 @@ namespace RoboticHelpTool
                         KUKA_Sorted.InsertRange(KUKA_Sorted.FindIndex
                             (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
                             , SortLocationsE6POS);
+                    }
+
+                    if (SortLocationsE6AXIS.Any())
+                    {
+                        //SortLocationsE6POS.Sort();
+                        KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                            (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                            , ";------------E6AXIS-----------");
+                        KUKA_Sorted.InsertRange(KUKA_Sorted.FindIndex
+                            (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                            , SortLocationsE6AXIS);
                     }
 
                     if (SortLocationsVW.Any())
@@ -575,6 +596,7 @@ namespace RoboticHelpTool
             KUKA_Sorted.Clear();
             LocationsAktuellString.Clear();
             SortLocationsE6POS.Clear();
+            SortLocationsE6AXIS.Clear();
             SortLocationsMisc.Clear();
             SortLocationsVW.Clear();
             SortLocationsFDAT.Clear();
@@ -598,8 +620,12 @@ namespace RoboticHelpTool
                     {
                         LocationsAktuellString.Add(zeile);
                         //Wenn in der Zeile keine Deklaration einer Variablen stattfindet
-                        if (!zeile.CaseInsensitiveContains("DECL "))
-                            KUKA_Header.Add(zeile);
+                        if (!zeile.CaseInsensitiveContains("DECL ") || zeile.CaseInsensitiveContains(" SUCCESS"))
+                           if (!zeile.CaseInsensitiveContains("E6POS") && !zeile.CaseInsensitiveContains("VW") &&
+                               !zeile.CaseInsensitiveContains("FDAT") && !zeile.CaseInsensitiveContains("PDAT") &&
+                               !zeile.CaseInsensitiveContains("LDAT") && !zeile.CaseInsensitiveContains("E6AXIS") ||
+                               zeile.CaseInsensitiveContains("DEFDAT"))
+                               KUKA_Header.Add(zeile);
 
                         //Wenn in der Zeile eine Deklaration einer Variablen stattfindet
                         if (zeile.Contains("DECL "))
@@ -670,6 +696,7 @@ namespace RoboticHelpTool
 
                 }
                 SortLocationsE6POS.Clear();
+                SortLocationsE6AXIS.Clear();
                 SortLocationsFRAME.Clear();
                 SortLocationsMisc.Clear();
                 SortLocationsVW.Clear();
@@ -679,18 +706,23 @@ namespace RoboticHelpTool
                 //Wenn in der Zeile eine Deklaration einer Variablen stattfindet
                 foreach (var zeil in SortLocationsFromSrc)
                 {
-                    if (zeil.Contains("DECL "))
+                    if (zeil.Contains("DECL ") && !zeil.Contains("SUCCESS"))
                     {
                         //sonstige Deklarationen
                         if ((!zeil.CaseInsensitiveContains(" E6POS ") && !zeil.CaseInsensitiveContains("VW") &&
                             !zeil.CaseInsensitiveContains(" FDAT ") && !zeil.CaseInsensitiveContains(" PDAT ") &&
                             !zeil.CaseInsensitiveContains(" LDAT ") && !zeil.CaseInsensitiveContains("DECL FRAME ") &&
-                            !zeil.CaseInsensitiveContains(" stArcDat_T ")) || zeil.CaseInsensitiveContains(" MODULEPARAM_T "))
+                            !zeil.CaseInsensitiveContains(" stArcDat_T ") && !zeil.CaseInsensitiveContains(" E6AXIS ")) 
+                            || zeil.CaseInsensitiveContains(" MODULEPARAM_T "))
                             SortLocationsMisc.Add(zeil);
 
                         //E6POS Deklarationen
                         if (zeil.CaseInsensitiveContains(" E6POS "))
                             SortLocationsE6POS.Add(zeil);
+
+                        //E6AXIS Deklarationen
+                        if (zeil.CaseInsensitiveContains(" E6AXIS "))
+                            SortLocationsE6AXIS.Add(zeil);
 
                         //FRAME Deklarationen
                         if (zeil.CaseInsensitiveContains("DECL FRAME "))
@@ -723,7 +755,8 @@ namespace RoboticHelpTool
                     foreach (string lzeile in KUKA_Header)
                     {
                         if (!lzeile.StartsWith(";s") && (!lzeile.StartsWith(";-")) && (!lzeile.StartsWith(";AE")) && (!lzeile.StartsWith(";CO"))
-                            && (!lzeile.StartsWith(";PR")) && (!lzeile.StartsWith(";ES")) && (!lzeile.StartsWith(";SS")) && (!lzeile.StartsWith(";#-")))
+                            && (!lzeile.StartsWith(";PR")) && (!lzeile.StartsWith(";ES")) && (!lzeile.StartsWith(";SS")) && (!lzeile.StartsWith(";#-"))
+                            && (!lzeile.StartsWith(";*")) && (!lzeile.StartsWith(";MODULEPARAM_T")))
                         {
                             KUKA_Header_clean.Add(lzeile);
                         }
@@ -760,6 +793,43 @@ namespace RoboticHelpTool
                             (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
                             , "");
                         foreach (string line in SortLocationsE6POS)
+                        {
+                            string[] split;
+                            split = line.Split('_','=');
+                            foreach (string x in split)
+                            {
+                                if ((Regex.IsMatch(x,@"s\d\dr\d\d") || (Regex.IsMatch(x, @"(?i)ak\d\d")) || (Regex.IsMatch(x, @"(?i)s\d\d"))) && !x.Equals(name) && !line.CaseInsensitiveContains("vorpos"))
+                                {
+                                    name = x;
+                                    KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                                        (y => y.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                                        , "");
+                                    KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                                        (y => y.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                                        , ";------------" + name + "------------");
+                                    break;
+                                }
+                            }
+
+                            KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                                (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                                , line);
+                        }
+                    }
+
+                    if (SortLocationsE6AXIS.Any())
+                    {
+                        string name = "";
+                        KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                            (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                            , "");
+                        KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                            (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                            , ";------------E6AXIS-----------");
+                        KUKA_Sorted.Insert(KUKA_Sorted.FindIndex
+                            (x => x.Equals("ENDDAT", StringComparison.CurrentCultureIgnoreCase))
+                            , "");
+                        foreach (string line in SortLocationsE6AXIS)
                         {
                             string[] split;
                             split = line.Split('_','=');
@@ -975,7 +1045,8 @@ namespace RoboticHelpTool
                 foreach (var line in LocationsAktuellString)
                 {
                     if (!line.CaseInsensitiveContains(";s") && (!line.CaseInsensitiveContains(";-")) && (!line.StartsWith(";AE")) && (!line.StartsWith(";CO"))
-                            && (!line.StartsWith(";PR")) && (!line.StartsWith(";ES")) && (!line.StartsWith(";SS")) && (!line.StartsWith(";#-")))
+                            && (!line.StartsWith(";PR")) && (!line.StartsWith(";ES")) && (!line.StartsWith(";SS"))
+                            && (!line.StartsWith(";#-")) && (!line.StartsWith(";*")) && (!line.StartsWith(";")))
                     {
                         if (!KUKA_Sorted.Contains(line))
                         {
